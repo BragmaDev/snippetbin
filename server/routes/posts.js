@@ -18,7 +18,7 @@ router.post('/', validateToken, function (req, res, next) {
     };
     // create db entry
     Post.create(post)
-        .then(ok => { return res.send("Post created successfully.") })
+        .then(ok => { return res.json({ success: true }) })
         .catch(err => { throw err });
 });
 
