@@ -1,5 +1,5 @@
 {
-  "name": "awp-project",
+  "name": "snippetbin",
   "version": "1.0.0",
   "description": "Code snippet sharing application",
   "main": "index.js",
