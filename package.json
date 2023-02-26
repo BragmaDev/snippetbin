@@ -1,0 +1,14 @@
+{
+  "name": "awp-project",
+  "version": "1.0.0",
+  "description": "Code snippet sharing application",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "cd server && npm install",
+    "install": "cd client && npm install",
+    "dev:client": "cd client && npm start",
+    "dev:server": "cd server && npm run dev"
+  },
+  "author": "Matti Bragge",
+  "license": "ISC"
+}
