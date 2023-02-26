@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function PostForm() {
+    const navigate = useNavigate();
     const [snippet, setSnippet] = useState("");
 
     const handleChange = (e) => {
@@ -24,7 +26,7 @@ function PostForm() {
             .then(data => { 
                 if (data.success === true) {
                     console.log("Post submitted succesfully.");
-                    document.getElementById("snippet").value = "";
+                    window.location.reload();
                 } else {
                     console.log("Post submission failed.");
                 }
