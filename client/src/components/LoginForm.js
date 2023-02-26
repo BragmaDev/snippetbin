@@ -21,7 +21,8 @@ function LoginForm() {
         })
             .then(response => response.json())
             .then(data => { 
-                if (data.success === true) {
+                if (data.success === true && data.token) {
+                    localStorage.setItem("auth_token", data.token);
                     navigate("/");
                 } else {
                     console.log("Login unsuccessful.");

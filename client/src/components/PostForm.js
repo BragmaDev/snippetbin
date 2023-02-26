@@ -1,20 +1,21 @@
 import { useState } from 'react'
 
 function PostForm() {
-    const [snippet, setSnippet] = useState("")
+    const [snippet, setSnippet] = useState("");
 
     const handleChange = (e) => {
-        if (e.target.id === "email") setSnippet(e.target.value);
+        if (e.target.id === "snippet") setSnippet(e.target.value);
     }
 
     const handleSubmit = (e) => {
-        const authKey = localStorage.getItem("auth_key");
+        e.preventDefault();
+        const authToken = localStorage.getItem("auth_token");
         // submit post
         fetch('api/posts', {
             method: "POST",
             headers: {
               "Content-type": "application/json",
-              "Authorization": "Bearer " + authKey
+              "Authorization": "Bearer " + authToken
             },
             body: JSON.stringify({ snippet }),
             mode: "cors"
@@ -23,6 +24,7 @@ function PostForm() {
             .then(data => { 
                 if (data.success === true) {
                     console.log("Post submitted succesfully.");
+                    document.getElementById("snippet").value = "";
                 } else {
                     console.log("Post submission failed.");
                 }
