@@ -27,7 +27,7 @@ router.post('/register',
 		User.findOne().or([{ email: req.body.email }, { username: req.body.username }])
 			.then(user => {
 				if (user) {
-					return res.status(403).json({ error: "Email already in use" });
+					return res.status(403).json({ error: "Email or username already in use" });
 				} else {
 					bcrypt.genSalt(10, (err, salt) => {
 						if (err) throw err;
@@ -39,10 +39,9 @@ router.post('/register',
 								password: hash
 							}
 							// create user entry in the db
-							User.create(newUser, (err) => {
-								if (err) throw err;
-								return res.send("User registered succesfully.");
-							});
+							User.create(newUser)
+								.then(ok => { return res.send("User registered successfully.") })
+								.catch(err => { throw err });
 						});
 					});
 				}

@@ -1,9 +1,25 @@
 var express = require('express');
 var router = express.Router();
+var Post = require('../models/Post');
+const validateToken = require("../auth/validateToken");
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+// get list of posts
+router.get('/', async function (req, res, next) {
+    const posts = await Post.find({})
+        .catch(err => { throw err });
+    return res.json(posts);
+});
+
+// create new post
+router.post('/', validateToken, function (req, res, next) {
+    const post = {
+        userId: req.user.id,
+        snippet: req.body.snippet
+    };
+    // create db entry
+    Post.create(post)
+        .then(ok => { return res.send("Post created successfully.") })
+        .catch(err => { throw err });
 });
 
 module.exports = router;
