@@ -12,16 +12,13 @@ const User = require("../models/User");
 // regex for validating password
 const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()\-_+={}\[\]|\\;:"<>,.\/?])/;
 
-router.get('/', (req, res) => {
-	return res.send("hey");
-})
-
 // register new user
 router.post('/register',
-	// validate email and password
+	body("username"),
 	body("email").trim().isEmail().escape(),
 	body("password").isLength({ min: 8 }).matches(regex),
 	(req, res, next) => {
+		// validate request
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
@@ -51,6 +48,49 @@ router.post('/register',
 				}
 			})
 			.catch(err => { throw err });
-	});
+});
+
+// user login
+router.post("/login",
+	body("username"),
+	body("email").trim().isEmail().escape(),
+	body("password"),
+	(req, res, next) => {
+		// validate request
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
+		User.findOne({ email: req.body.email })
+			.then(user => {
+				if (!user) {
+					return res.status(403).json({ message: "Incorrect email or password." });
+				} else {
+					bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
+						if (err) throw err;
+						if (isMatch) {
+							const jwtPayload = {
+								id: user._id,
+								username: user.username,
+								email: user.email
+							}
+							jwt.sign(
+								jwtPayload,
+								process.env.SECRET,
+								{},
+								(err, token) => {
+									if (err) throw err;
+									res.json({ success: true, token });
+								}
+							);
+						} else {
+							res.json({ success: false });
+						}
+					});
+				}
+			})
+			.catch(err => { throw err });		
+});
+
 
 module.exports = router;
