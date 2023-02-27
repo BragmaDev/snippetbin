@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 function PostForm(props) {
@@ -46,7 +47,9 @@ function PostForm(props) {
                         fullWidth
                     />
                 </div>
-                <Button variant="contained" type="submit">Post snippet</Button>
+                <Grid container justifyContent="end">
+                    <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
+                </Grid>
             </form>
         )
     } else {
