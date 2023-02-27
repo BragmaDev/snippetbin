@@ -13,7 +13,23 @@ ul {
   margin: 0;
 }
 
+.stack {
+  width: 65%;
+}
+
 .post-list-paper {
+  width: 100%;
+}
+
+.comment-field {
+  width: 100%;
+}
+
+.comment-list {
+  width: 65%;
+}
+
+.comment-paper {
   width: 100%;
 }
 

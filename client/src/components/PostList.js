@@ -1,5 +1,4 @@
-import Paper from '@mui/material/Paper';
-import { Grid, Button } from '@mui/material';
+import { Paper, Grid, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 function PostList({ posts }) {

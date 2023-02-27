@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Stack, Grid, TextField, Button } from '@mui/material';
 
 function CommentForm({ postId }) {
     const [content, setContent] = useState("");
@@ -32,11 +33,12 @@ function CommentForm({ postId }) {
     }
     return (
         <form onChange={handleChange} onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="content">Comment</label>
-                <textarea id="content" />
-            </div>
-            <button type="submit">Post comment</button>
+            <Stack sx={{ width: 300 }} alignItems="center">
+                <TextField className="comment-field" label="Comment" id="content" multiline minRows={2}></TextField>
+                <Grid container justifyContent="center">
+                    <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
+                </Grid>
+            </Stack>         
         </form>
     )
 }

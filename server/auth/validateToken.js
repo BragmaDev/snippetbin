@@ -15,7 +15,6 @@ module.exports = function(req, res, next) {
     }
     jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
-            console.log(err);
             return res.status(401).json({verified: false});
         }
         req.user = user;

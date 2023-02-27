@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Paper, Grid, Button } from '@mui/material';
+import { Stack } from '@mui/system';
 import CommentForm from './CommentForm';
 
 export const PostContainer = () => {
@@ -22,7 +24,15 @@ export const PostContainer = () => {
             const comments = await fetch("/api/posts/" + postId + "/comments")
                 .then(res => res.json())
                 .then(json => json.map(comment => {
-                    return <li key={comment._id}>{comment.content}</li>
+                    return <li key={comment._id}>   
+                        <Paper 
+                            className="comment-paper" 
+                            sx={{ px: 2, py: 2, my: 2 }}
+                            variant="outlined"
+                        >
+                            {comment.content}
+                        </Paper>
+                    </li>
                 }));
             
             if (mounted) setComments(comments);
@@ -33,17 +43,19 @@ export const PostContainer = () => {
     }, [postId]);
 
     return (
-        <div>
-            <pre>
-                <code>
-                    {snippet}
-                </code>
-            </pre>
+        <Stack alignItems="center">
+            <Paper sx={{ p: 4, my: 2 }}>
+                <pre>
+                    <code>
+                        {snippet}
+                    </code>
+                </pre>
+            </Paper>           
             <CommentForm postId={postId}/>
-            <ul>
+            <ul className="comment-list">
                 {comments}
             </ul>
-        </div>
+        </Stack>
     )
 }
 

@@ -66,7 +66,9 @@ function PostForm(props) {
                         fullWidth
                     />
                 </div>
-                <Button disabled variant="contained" type="submit">Post snippet</Button>
+                <Grid container justifyContent="end">
+                    <Button disabled variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
+                </Grid>
             </form>
         )
     }
