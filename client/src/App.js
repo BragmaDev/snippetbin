@@ -1,5 +1,7 @@
 import './App.css';
+import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { purple } from '@mui/material/colors';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -13,15 +15,40 @@ function App() {
 	const darkTheme = createTheme({
 		palette: {
 		  mode: 'dark',
+		  primary: purple
 		},
 	});
+
+	const [loggedIn, setLoggedIn] = useState(false);
+	useEffect(() => {
+        let mounted = true;
+        // verifies that user is logged in
+        async function verifyLoggedIn() {
+			let verified = false;
+			const authToken = localStorage.getItem("auth_token");
+            await fetch("/api/users/verify", {
+				headers: {
+				"Authorization": "Bearer " + authToken
+				},
+				mode: "cors"
+			})
+                .then(response => response.json())
+				.then(json => { if (json.verified) verified = true });
+
+            if (mounted) setLoggedIn(verified);
+			
+        }
+        verifyLoggedIn();
+
+        return () => { mounted = false; }
+    }, []);
 	  
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 				<Router>
 					<div className="App">
-						<Header/>
+						<Header loggedIn={loggedIn}/>
 						<Routes>
 							<Route path="/" element={<>
 								<PostForm/>

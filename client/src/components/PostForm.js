@@ -43,7 +43,7 @@ function PostForm() {
                     defaultValue=""
                 />
             </div>
-            <Button variant="contained">Post snippet</Button>
+            <Button variant="contained" type="submit">Post snippet</Button>
         </form>
     )
 }

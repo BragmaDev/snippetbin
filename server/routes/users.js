@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
-//const validateToken = require("../auth/validateToken");
+const validateToken = require("../auth/validateToken");
 
 // regex for validating password
 const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()\-_+={}\[\]|\\;:"<>,.\/?])/;
@@ -74,7 +74,7 @@ router.post("/login",
 							jwt.sign(
 								jwtPayload,
 								process.env.SECRET,
-								{},
+								{ expiresIn: 7200 },
 								(err, token) => {
 									if (err) throw err;
 									res.json({ success: true, token });
@@ -87,6 +87,11 @@ router.post("/login",
 				}
 			})
 			.catch(err => { throw err });		
+});
+
+// check if user is authenticated
+router.get("/verify", validateToken, function (req, res, next) {
+	return res.json({verified: true});
 });
 
 

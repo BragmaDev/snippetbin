@@ -1,34 +1,51 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-function Header() {
-  return (
-    <AppBar position="static">
-        <Toolbar>
-            <Typography 
-                variant="h6" 
-                component="Link" 
-                to="/"
-                noWrap
-                sx={{
-                    mr: 2,
-                    display: { xs: 'none', md: 'flex' },
-                    fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
-                }}
-            >
-                SNIPPETBIN
-            </Typography>
-        </Toolbar>
-    </AppBar>
-  )
+function Header({ loggedIn }) {
+    let userButtons = <>
+        <Button component={Link} to="/login" variant="text" color="secondary">LOGIN</Button>
+        <Button component={Link} to="/register" variant="text" color="secondary">REGISTER</Button>
+    </>
+
+    const handleLogout = (e) => {
+        localStorage.removeItem("auth_token");
+        window.location.reload();
+    }
+
+    if (loggedIn) {
+        userButtons = <Button onClick={handleLogout} variant="text" color="secondary">LOGOUT</Button>
+    } 
+
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <Typography
+                    variant="h6"
+                    component={Link}
+                    to="/"
+                    sx={{
+                        mr: 2,
+                        display: { xs: 'none', md: 'flex' },
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        letterSpacing: '.3rem',
+                        color: 'inherit',
+                        textDecoration: 'none',
+                    }}
+                >
+                    &lt;SNIPPETBIN/&gt;
+                </Typography>
+                <Grid container justifyContent="end">
+                    {userButtons}
+                </Grid>
+            </Toolbar>
+        </AppBar>
+    )
 }
 
 export default Header
