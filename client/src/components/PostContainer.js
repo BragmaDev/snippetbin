@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import CommentForm from './CommentForm';
 
 export const PostContainer = () => {
     const { postId } = useParams();
@@ -26,7 +27,7 @@ export const PostContainer = () => {
             
             if (mounted) setComments(comments);
         }
-        if (postId !== undefined) getPost();
+        getPost();
 
         return () => { mounted = false; }
     }, []);
@@ -38,6 +39,7 @@ export const PostContainer = () => {
                     {snippet}
                 </code>
             </pre>
+            <CommentForm postId={postId}/>
             <ul>
                 {comments}
             </ul>
