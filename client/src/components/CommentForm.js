@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Stack, Grid, TextField, Button } from '@mui/material';
 
-function CommentForm({ postId }) {
+function CommentForm(props) {
     const [content, setContent] = useState("");
 
     const handleChange = (e) => {
@@ -12,7 +12,7 @@ function CommentForm({ postId }) {
         e.preventDefault();
         const authToken = localStorage.getItem("auth_token");
         // submit comment
-        fetch('../api/posts/' + postId + '/comments', {
+        fetch('../api/posts/' + props.postId + '/comments', {
             method: "POST",
             headers: {
               "Content-type": "application/json",
@@ -31,16 +31,31 @@ function CommentForm({ postId }) {
                 }
             });  
     }
-    return (
-        <form onChange={handleChange} onSubmit={handleSubmit}>
-            <Stack sx={{ width: 300 }} alignItems="center">
-                <TextField className="comment-field" label="Comment" id="content" multiline minRows={2}></TextField>
-                <Grid container justifyContent="center">
-                    <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
-                </Grid>
-            </Stack>         
-        </form>
-    )
+
+    if (props.loggedIn) {
+        return (
+            <form onChange={handleChange} onSubmit={handleSubmit}>
+                <Stack sx={{ width: 300 }} alignItems="center">
+                    <TextField className="comment-field" label="Comment" id="content" multiline minRows={2}></TextField>
+                    <Grid container justifyContent="center">
+                        <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
+                    </Grid>
+                </Stack>         
+            </form>
+        )
+    } else {
+        return (
+            <form onChange={handleChange} onSubmit={handleSubmit}>
+                <Stack sx={{ width: 300 }} alignItems="center">
+                    <TextField disabled className="comment-field" label="Log in to comment" id="content" multiline minRows={2}></TextField>
+                    <Grid container justifyContent="center">
+                        <Button disabled variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
+                    </Grid>
+                </Stack>         
+            </form>
+        )
+    }
+    
 }
 
 export default CommentForm

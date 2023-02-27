@@ -4,7 +4,7 @@ import { Paper, Grid, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 import CommentForm from './CommentForm';
 
-export const PostContainer = () => {
+export const PostContainer = (props) => {
     const { postId } = useParams();
     const [snippet, setSnippet] = useState("");
     const [comments, setComments] = useState([]);
@@ -51,7 +51,7 @@ export const PostContainer = () => {
                     </code>
                 </pre>
             </Paper>           
-            <CommentForm postId={postId}/>
+            <CommentForm postId={postId} loggedIn={props.loggedIn}/>
             <ul className="comment-list">
                 {comments}
             </ul>

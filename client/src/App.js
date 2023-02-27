@@ -68,7 +68,7 @@ function App() {
 									<RegisterForm/>
 								</ProtectedRoute>
 							}/>
-							<Route path="/posts/:postId" element={<PostContainer/>}/>
+							<Route path="/posts/:postId" element={<PostContainer loggedIn={loggedIn}/>}/>
 							<Route path="*" element={<h1>404</h1>}/>
 						</Routes>		
 					</div>
