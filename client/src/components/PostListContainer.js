@@ -10,16 +10,8 @@ export const PostListContainer = () => {
         async function getPosts() {
             const data = await fetch("api/posts")
                 .then(res => res.json());
-            // turn response into a list of li elements
-            const listItems = data.map(post => {
-                return <li key={post._id}>
-                    <pre>
-                        <code>{post.snippet}</code>
-                    </pre>
-                </li>
-            });
 
-            if (mounted) setPosts(listItems);
+            if (mounted) setPosts(data);
         }
         getPosts();
 
@@ -27,7 +19,7 @@ export const PostListContainer = () => {
     }, []);
 
     return (
-        <div>
+        <div className="list-wrapper">
             <PostList posts={posts} />
         </div>
     )

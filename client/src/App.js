@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
 import Header from './components/Header';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
@@ -50,10 +51,12 @@ function App() {
 					<div className="App">
 						<Header loggedIn={loggedIn}/>
 						<Routes>
-							<Route path="/" element={<>
-								<PostForm/>
+							<Route path="/" element={<Stack 
+								alignItems="center"
+							>
+								<PostForm loggedIn={loggedIn}/>
 								<PostListContainer/>
-							</>}/>
+							</Stack>}/>
 							<Route path="/login" element={<LoginForm/>}/>
 							<Route path="/register" element={<RegisterForm/>}/>
 							<Route path="/posts/:postId" element={<PostContainer/>}/>

@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-function Header({ loggedIn }) {
+function Header(props) {
     let userButtons = <>
         <Button component={Link} to="/login" variant="text" color="secondary">LOGIN</Button>
         <Button component={Link} to="/register" variant="text" color="secondary">REGISTER</Button>
@@ -17,7 +17,7 @@ function Header({ loggedIn }) {
         window.location.reload();
     }
 
-    if (loggedIn) {
+    if (props.loggedIn) {
         userButtons = <Button onClick={handleLogout} variant="text" color="secondary">LOGOUT</Button>
     } 
 
@@ -30,7 +30,6 @@ function Header({ loggedIn }) {
                     to="/"
                     sx={{
                         mr: 2,
-                        display: { xs: 'none', md: 'flex' },
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
