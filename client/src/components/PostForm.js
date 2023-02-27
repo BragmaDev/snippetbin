@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function PostForm() {
     const [snippet, setSnippet] = useState("");
@@ -33,10 +35,15 @@ function PostForm() {
     return (
         <form onChange={handleChange} onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="snippet">Snippet</label>
-                <textarea id="snippet" />
+                <TextField
+                    id="snippet"
+                    label="Code snippet"
+                    multiline
+                    minRows={4}
+                    defaultValue=""
+                />
             </div>
-            <button type="submit">Post snippet</button>
+            <Button variant="contained">Post snippet</Button>
         </form>
     )
 }

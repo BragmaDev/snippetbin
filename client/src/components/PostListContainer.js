@@ -8,7 +8,7 @@ export const PostListContainer = () => {
         let mounted = true;
         // get all posts
         async function getPosts() {
-            const data = await fetch("/api/posts")
+            const data = await fetch("api/posts")
                 .then(res => res.json());
             // turn response into a list of li elements
             const listItems = data.map(post => {

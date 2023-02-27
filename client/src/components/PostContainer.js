@@ -30,7 +30,7 @@ export const PostContainer = () => {
         getPost();
 
         return () => { mounted = false; }
-    }, []);
+    }, [postId]);
 
     return (
         <div>
