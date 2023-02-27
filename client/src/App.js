@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 import Stack from '@mui/material/Stack';
 import Header from './components/Header';
 import RegisterForm from './components/RegisterForm';
@@ -57,8 +58,16 @@ function App() {
 								<PostForm loggedIn={loggedIn}/>
 								<PostListContainer/>
 							</Stack>}/>
-							<Route path="/login" element={<LoginForm/>}/>
-							<Route path="/register" element={<RegisterForm/>}/>
+							<Route path="/login" element={
+								<ProtectedRoute loggedIn={loggedIn} shouldBeLoggedIn={false}>
+									<LoginForm/>
+								</ProtectedRoute>
+							}/>
+							<Route path="/register" element={
+								<ProtectedRoute loggedIn={loggedIn} shouldBeLoggedIn={false}>
+									<RegisterForm/>
+								</ProtectedRoute>
+							}/>
 							<Route path="/posts/:postId" element={<PostContainer/>}/>
 							<Route path="*" element={<h1>404</h1>}/>
 						</Routes>		

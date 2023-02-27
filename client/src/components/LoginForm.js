@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-function LoginForm() {
-    const navigate = useNavigate();
+function LoginForm(props) {
     const [credentials, setCredentials] = useState({})
 
     const handleChange = (e) => {
@@ -23,11 +22,15 @@ function LoginForm() {
             .then(data => { 
                 if (data.success === true && data.token) {
                     localStorage.setItem("auth_token", data.token);
-                    navigate("/");
+                    window.location.reload();
                 } else {
                     console.log("Login unsuccessful.");
                 }
             });    
+    }
+
+    if (props.loggedIn) {
+        return <Navigate to="/" replace />;
     }
 
     return (
