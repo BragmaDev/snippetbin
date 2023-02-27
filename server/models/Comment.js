@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let commentSchema = new Schema ({
-    postId: {type: String},
-    userId: {type: String},
+    postId: {type: mongoose.Types.ObjectId},
+    userId: {type: mongoose.Types.ObjectId},
     content: {type: String}
 });
 

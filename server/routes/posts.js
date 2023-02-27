@@ -1,4 +1,5 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var router = express.Router();
 var Post = require('../models/Post');
 var Comment = require('../models/Comment');
@@ -13,14 +14,15 @@ router.get('/', async function (req, res, next) {
 
 // get single post by id
 router.get('/:id', async function (req, res, next) {
-    const post = await Post.findOne({ _id: req.params.id })
+    console.log(req.params.id);
+    const post = await Post.findById(req.params.id)
         .catch(err => { throw err });
     return res.json(post);
 });
 
 // get comments by post id
 router.get('/:id/comments', async function (req, res, next) {
-    const comments = await Comment.find({ postId: req.params.id })
+    const comments = await Comment.find({ postId: mongoose.Types.ObjectId(req.params.id) })
         .catch(err => { throw err });
     return res.json(comments);
 });

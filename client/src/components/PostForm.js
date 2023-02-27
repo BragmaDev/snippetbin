@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 function PostForm() {
-    const navigate = useNavigate();
     const [snippet, setSnippet] = useState("");
 
     const handleChange = (e) => {
@@ -36,7 +34,7 @@ function PostForm() {
         <form onChange={handleChange} onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="snippet">Snippet</label>
-                <input id="snippet" type="text" />
+                <textarea id="snippet" />
             </div>
             <button type="submit">Post snippet</button>
         </form>

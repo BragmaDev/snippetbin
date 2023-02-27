@@ -6,20 +6,24 @@ export const PostListContainer = () => {
 
     useEffect(() => {
         let mounted = true;
+        // get all posts
         async function getPosts() {
             const data = await fetch("/api/posts")
                 .then(res => res.json());
-            const listItems = data.map(post => <li key={post._id}>{post.snippet}</li>);
+            // turn response into a list of li elements
+            const listItems = data.map(post => {
+                return <li key={post._id}>
+                    <pre>
+                        <code>{post.snippet}</code>
+                    </pre>
+                </li>
+            });
 
-            if (mounted) {
-                setPosts(listItems);
-            }
+            if (mounted) setPosts(listItems);
         }
         getPosts();
 
-        return () => {
-            mounted = false;
-        }
+        return () => { mounted = false; }
     }, []);
 
     return (
