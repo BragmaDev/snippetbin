@@ -67,10 +67,11 @@ const Comment = (props) => {
                 {props.comment.content}
             </div>
             <Grid container justifyContent="end">
-                <Typography sx={{ pt: 1, pr: 1 }} variant="button" color="lightgrey">{rating}</Typography>
+                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.user != null) ? props.comment.posterName : "Username"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
                 </IconButton>
+                <Typography sx={{ pt: 1, px: 1 }} variant="button" color="secondary">{rating}</Typography>
                 <IconButton disabled={props.user == null || currentVote == -1} onClick={() => handleVote(-1)} aria-label="downvote">
                     <KeyboardArrowDown color={(currentVote == -1) ? "primary" : "default"} />
                 </IconButton>

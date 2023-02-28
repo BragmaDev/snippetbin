@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 let postSchema = new Schema ({
     userId: {type: mongoose.Types.ObjectId},
+    posterName: {type: String},
     title: {type: String},
     snippet: {type: String},
     votes: {type: Array},

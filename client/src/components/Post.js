@@ -1,5 +1,5 @@
 import { Paper, Grid, Button, IconButton, Typography } from '@mui/material';
-import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
+import { KeyboardArrowUp, KeyboardArrowDown, Comment } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -61,7 +61,9 @@ const Post = (props) => {
 
     const commentsButton = () => {
         if (props.inList) {
-            return <Button component={Link} to={"/posts/" + props.post._id} color="secondary">Comments</Button>            
+            return <IconButton component={Link} to={"/posts/" + props.post._id}>
+                <Comment></Comment>
+            </IconButton>            
         } else {
             return <></>;
         }
@@ -76,10 +78,11 @@ const Post = (props) => {
                 </code>
             </pre>
             <Grid container justifyContent="end">
-                <Typography sx={{ pt: 1, pr: 1 }} variant="button" color="lightgrey">{rating}</Typography>
+                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.user != null) ? props.post.posterName : "Username"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
                 </IconButton>
+                <Typography sx={{ pt: 1, px: 1 }} variant="button" color="secondary">{rating}</Typography>
                 <IconButton disabled={props.user == null || currentVote == -1} onClick={() => handleVote(-1)} aria-label="downvote">
                     <KeyboardArrowDown color={(currentVote == -1) ? "primary" : "default"} />
                 </IconButton>

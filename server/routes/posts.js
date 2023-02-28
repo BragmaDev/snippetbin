@@ -7,7 +7,7 @@ const validateToken = require("../auth/validateToken");
 
 // get list of posts
 router.get('/', async function (req, res, next) {
-    const posts = await Post.find({}).sort({ _id: -1 })
+    const posts = await Post.find({}).sort({ rating: -1 })
         .catch(err => { throw err });
     return res.json(posts);
 });
@@ -22,6 +22,7 @@ router.get('/:id', async function (req, res, next) {
 // get comments by post id
 router.get('/:id/comments', async function (req, res, next) {
     const comments = await Comment.find({ postId: mongoose.Types.ObjectId(req.params.id) })
+        .sort({ rating: -1 })
         .catch(err => { throw err });
     return res.json(comments);
 });
@@ -30,6 +31,7 @@ router.get('/:id/comments', async function (req, res, next) {
 router.post('/', validateToken, function (req, res, next) {
     const post = {
         userId: req.user.id,
+        posterName: req.user.username,
         title: req.body.title,
         snippet: req.body.snippet,
         votes: [],
@@ -46,6 +48,7 @@ router.post('/:id/comments', validateToken, function (req, res, next) {
     const comment = {
         postId: req.params.id,
         userId: req.user.id,
+        posterName: req.user.username,
         content: req.body.content,
         votes: [],
         rating: 0
