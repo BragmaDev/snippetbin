@@ -3,15 +3,18 @@ import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-const Post = (props) => { 
+const Post = (props) => {
     const [rating, setRating] = useState(props.post.rating);
     const [currentVote, setCurrentVote] = useState(0);
 
     const getVoteFromProps = () => {
+        if (props.post.votes == undefined || props.post.votes == null) return 0;
         // get user's current vote on the post
         if (props.user != null) {
             const found = props.post.votes.findIndex(vote => vote.userId === props.user.id);
-            if (found != -1) return props.post.votes[found].vote;
+            if (found != -1) {
+                return props.post.votes[found].vote;
+            }
         }
         return 0;
     }
@@ -19,14 +22,18 @@ const Post = (props) => {
     useEffect(() => {
         let mounted = true;
         const vote = getVoteFromProps();
-        if (mounted) setCurrentVote(vote);
+        if (mounted) {
+            setCurrentVote(vote);
+            setRating(props.post.rating);
+        }
         return () => { mounted = false; }
-    }, [props.user]);
+    }, [props.user, props.post]);
 
     const handleVote = (vote) => {
         const authToken = localStorage.getItem("auth_token");
+        const fetchURL = (props.inList) ? 'api/posts/' : '../api/posts/';
         // submit vote
-        fetch('api/posts/' + props.post._id, {
+        fetch(fetchURL + props.post._id, {
             method: "PUT",
             headers: {
               "Content-type": "application/json",
@@ -52,6 +59,14 @@ const Post = (props) => {
             });
     }
 
+    const commentsButton = () => {
+        if (props.inList) {
+            return <Button component={Link} to={"/posts/" + props.post._id} color="secondary">Comments</Button>            
+        } else {
+            return <></>;
+        }
+    }
+
     return (
         <Paper className="post-list-paper" sx={{ px: 4, pt: 4, pb: 2, my: 2 }}>
             <Typography sx={{ pb: 2 }} variant="h6" color="primary">{props.post.title}</Typography>
@@ -68,7 +83,7 @@ const Post = (props) => {
                 <IconButton disabled={props.user == null || currentVote == -1} onClick={() => handleVote(-1)} aria-label="downvote">
                     <KeyboardArrowDown color={(currentVote == -1) ? "primary" : "default"} />
                 </IconButton>
-                <Button component={Link} to={"/posts/" + props.post._id} color="secondary">Comments</Button>
+                {commentsButton()}
             </Grid>
         </Paper>
     )

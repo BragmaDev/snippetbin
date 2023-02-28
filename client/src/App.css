@@ -3,7 +3,7 @@
   width: 65%;
 }
 
-.list-wrapper {
+.column-wrapper {
   width: 65%;
 }
 
@@ -38,7 +38,16 @@ ul {
 }
 
 /* source: https://www.w3docs.com/snippets/css/how-to-wrap-text-in-a-pre-tag-with-css.html */
-/* wraps long text so it doesn't go beyond the paper borders */
+/* wraps long text so it doesn't go beyond borders */
+.comment-text {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
 pre {
   margin-top: 0;
   margin-bottom: 0;

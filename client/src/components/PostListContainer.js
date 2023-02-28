@@ -19,7 +19,7 @@ export const PostListContainer = (props) => {
     }, []);
 
     return (
-        <div className="list-wrapper">
+        <div className="column-wrapper">
             <PostList posts={posts} user={props.user} />
         </div>
     )

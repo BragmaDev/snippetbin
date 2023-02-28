@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 import { Paper, Grid, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 import CommentForm from './CommentForm';
+import Post from './Post';
 
 export const PostContainer = (props) => {
     const { postId } = useParams();
-    const [snippet, setSnippet] = useState("");
+    const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -17,7 +18,7 @@ export const PostContainer = (props) => {
                 .then(res => res.json())
                 .then(getComments());
 
-            if (mounted) setSnippet(post.snippet);
+            if (mounted) setPost(post);
         }
         // gets post comments
         async function getComments() {
@@ -30,7 +31,9 @@ export const PostContainer = (props) => {
                             sx={{ px: 2, py: 2, my: 2 }}
                             variant="outlined"
                         >
-                            {comment.content}
+                            <div className="comment-text">
+                                {comment.content}
+                            </div>
                         </Paper>
                     </li>
                 }));
@@ -44,13 +47,9 @@ export const PostContainer = (props) => {
 
     return (
         <Stack alignItems="center">
-            <Paper className="post-paper" sx={{ p: 4, my: 2 }}>
-                <pre>
-                    <code>
-                        {snippet}
-                    </code>
-                </pre>
-            </Paper>           
+            <div className="column-wrapper">
+                <Post post={post} user={props.user} inList={false} />        
+            </div>
             <CommentForm postId={postId} user={props.user}/>
             <ul className="comment-list">
                 {comments}
