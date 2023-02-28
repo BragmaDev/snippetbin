@@ -2,6 +2,10 @@ import { Paper, Grid, Button, IconButton, Typography } from '@mui/material';
 import { KeyboardArrowUp, KeyboardArrowDown, Comment } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+// code blocks use javascript as the language for syntax highlighting
+hljs.registerLanguage('javascript', javascript);
 
 const Post = (props) => {
     const [rating, setRating] = useState(props.post.rating);
@@ -26,6 +30,7 @@ const Post = (props) => {
             setCurrentVote(vote);
             setRating(props.post.rating);
         }
+        hljs.highlightAll();
         return () => { mounted = false; }
     }, [props.user, props.post]);
 
@@ -73,7 +78,7 @@ const Post = (props) => {
         <Paper className="post-list-paper" sx={{ px: 4, pt: 4, pb: 2, my: 2 }}>
             <Typography sx={{ pb: 2 }} variant="h6" color="primary">{props.post.title}</Typography>
             <pre>
-                <code>
+                <code className="hljs language-javascript">
                     {props.post.snippet}
                 </code>
             </pre>
