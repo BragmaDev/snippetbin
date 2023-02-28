@@ -14,7 +14,6 @@ router.get('/', async function (req, res, next) {
 
 // get single post by id
 router.get('/:id', async function (req, res, next) {
-    console.log(req.params.id);
     const post = await Post.findById(req.params.id)
         .catch(err => { throw err });
     return res.json(post);
@@ -31,7 +30,9 @@ router.get('/:id/comments', async function (req, res, next) {
 router.post('/', validateToken, function (req, res, next) {
     const post = {
         userId: req.user.id,
-        snippet: req.body.snippet
+        title: req.body.title,
+        snippet: req.body.snippet,
+        votes: []
     };
     // create db entry
     Post.create(post)
@@ -52,5 +53,27 @@ router.post('/:id/comments', validateToken, function (req, res, next) {
         .catch(err => { throw err });
 });
 
+// vote on a post
+router.put('/:id', validateToken, function (req, res, next) {
+    Post.findById(req.params.id)
+        .then(post => {
+            if (!post) {
+                return res.status(404).json({success: false});
+            }
+            const index = post.votes.findIndex(vote => vote.userId === req.user.id);           
+            if (index === -1) {
+                // user has not voted on this post yet
+                post.votes.push({userId: req.user.id, vote: req.body.vote});
+                post.save();
+                return res.json({success: true});
+            } else {
+                // user has already voted on this post
+                post.votes[index] = {...post.votes[index], vote: req.body.vote};
+                post.save();
+                return res.json({success: true});
+            }
+        })
+        .catch(err => { throw err });
+});
 
 module.exports = router;
