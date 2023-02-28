@@ -14,11 +14,15 @@ ul {
 }
 
 .stack {
-  width: 65%;
+  width: 75%;
 }
 
 .post-list-paper {
   width: 100%;
+}
+
+.post-paper {
+  width: 75%;
 }
 
 .comment-field {
@@ -26,14 +30,22 @@ ul {
 }
 
 .comment-list {
-  width: 65%;
+  width: 75%;
 }
 
 .comment-paper {
   width: 100%;
 }
 
+/* source: https://www.w3docs.com/snippets/css/how-to-wrap-text-in-a-pre-tag-with-css.html */
+/* wraps long text so it doesn't go beyond the paper borders */
 pre {
   margin-top: 0;
   margin-bottom: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }

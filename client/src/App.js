@@ -17,7 +17,8 @@ function App() {
 	const darkTheme = createTheme({
 		palette: {
 		  mode: 'dark',
-		  primary: purple
+		  primary: purple,
+		  lightgrey: "#9e9e9e"
 		},
 	});
 

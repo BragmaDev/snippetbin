@@ -44,7 +44,7 @@ export const PostContainer = (props) => {
 
     return (
         <Stack alignItems="center">
-            <Paper sx={{ p: 4, my: 2 }}>
+            <Paper className="post-paper" sx={{ p: 4, my: 2 }}>
                 <pre>
                     <code>
                         {snippet}
