@@ -69,15 +69,21 @@ router.put('/:id', validateToken, function (req, res, next) {
                 post.rating = post.votes.map(vote => vote.vote)
                     .reduce((a, b) => a+b);
                 post.save();
-                return res.json({success: true});
+                return res.json({success: true, replacedOldVote: false});
             } else {
-                // user has already voted on this post, replace old vote
-                post.votes[index] = {...post.votes[index], vote: req.body.vote};
-                // calculate post rating
-                post.rating = post.votes.map(vote => vote.vote)
-                    .reduce((a, b) => a+b);
-                post.save();
-                return res.json({success: true});
+                // user has already voted on this post
+                if (post.votes[index].vote === req.body.vote) {
+                    // user is trying to cast the same vote
+                    return res.json({success: false});
+                } else {
+                    // user is trying to replace their old vote
+                    post.votes[index] = {...post.votes[index], vote: req.body.vote};
+                    // calculate post rating
+                    post.rating = post.votes.map(vote => vote.vote)
+                        .reduce((a, b) => a+b);
+                    post.save();
+                    return res.json({success: true, replacedOldVote: true});
+                }       
             }
         })
         .catch(err => { throw err });

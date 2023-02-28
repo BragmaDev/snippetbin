@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PostList from "./PostList";
 
-export const PostListContainer = () => {
+export const PostListContainer = (props) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export const PostListContainer = () => {
 
     return (
         <div className="list-wrapper">
-            <PostList posts={posts} />
+            <PostList posts={posts} user={props.user} />
         </div>
     )
 }

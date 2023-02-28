@@ -55,7 +55,7 @@ function App() {
 								alignItems="center"
 							>
 								<PostForm user={user}/>
-								<PostListContainer/>
+								<PostListContainer user={user}/>
 							</Stack>}/>
 							<Route path="/login" element={
 								<ProtectedRoute user={user} shouldBeLoggedIn={false}>
