@@ -32,7 +32,8 @@ router.post('/', validateToken, function (req, res, next) {
         userId: req.user.id,
         title: req.body.title,
         snippet: req.body.snippet,
-        votes: []
+        votes: [],
+        rating: 0
     };
     // create db entry
     Post.create(post)
@@ -62,13 +63,19 @@ router.put('/:id', validateToken, function (req, res, next) {
             }
             const index = post.votes.findIndex(vote => vote.userId === req.user.id);           
             if (index === -1) {
-                // user has not voted on this post yet
+                // user has not voted on this post yet, add requested vote
                 post.votes.push({userId: req.user.id, vote: req.body.vote});
+                // calculate post rating
+                post.rating = post.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
                 post.save();
                 return res.json({success: true});
             } else {
-                // user has already voted on this post
+                // user has already voted on this post, replace old vote
                 post.votes[index] = {...post.votes[index], vote: req.body.vote};
+                // calculate post rating
+                post.rating = post.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
                 post.save();
                 return res.json({success: true});
             }
