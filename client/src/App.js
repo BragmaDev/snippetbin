@@ -22,26 +22,24 @@ function App() {
 		},
 	});
 
-	const [loggedIn, setLoggedIn] = useState(false);
+	const [user, setUser] = useState(null);
 	useEffect(() => {
         let mounted = true;
         // verifies that user is logged in
-        async function verifyLoggedIn() {
-			let verified = false;
+        async function verifyLogin() {
 			const authToken = localStorage.getItem("auth_token");
-            await fetch("/api/users/verify", {
-				headers: {
-				"Authorization": "Bearer " + authToken
-				},
+            const res = await fetch("/api/users/verify", {
+				headers: {"Authorization": "Bearer " + authToken},
 				mode: "cors"
 			})
-                .then(response => response.json())
-				.then(json => { if (json.verified) verified = true });
-
-            if (mounted) setLoggedIn(verified);
+                .then(response => response.json());
+            if (mounted && res.verified) {
+				console.log(JSON.stringify(res));
+				setUser(res.user);
+			}
 			
         }
-        verifyLoggedIn();
+        verifyLogin();
 
         return () => { mounted = false; }
     }, []);
@@ -51,25 +49,25 @@ function App() {
 			<CssBaseline />
 				<Router>
 					<div className="App">
-						<Header loggedIn={loggedIn}/>
+						<Header user={user}/>
 						<Routes>
 							<Route path="/" element={<Stack 
 								alignItems="center"
 							>
-								<PostForm loggedIn={loggedIn}/>
+								<PostForm user={user}/>
 								<PostListContainer/>
 							</Stack>}/>
 							<Route path="/login" element={
-								<ProtectedRoute loggedIn={loggedIn} shouldBeLoggedIn={false}>
+								<ProtectedRoute user={user} shouldBeLoggedIn={false}>
 									<LoginForm/>
 								</ProtectedRoute>
 							}/>
 							<Route path="/register" element={
-								<ProtectedRoute loggedIn={loggedIn} shouldBeLoggedIn={false}>
+								<ProtectedRoute user={user} shouldBeLoggedIn={false}>
 									<RegisterForm/>
 								</ProtectedRoute>
 							}/>
-							<Route path="/posts/:postId" element={<PostContainer loggedIn={loggedIn}/>}/>
+							<Route path="/posts/:postId" element={<PostContainer user={user}/>}/>
 							<Route path="*" element={<h1>404</h1>}/>
 						</Routes>		
 					</div>

@@ -91,7 +91,7 @@ router.post("/login",
 
 // check if user is authenticated
 router.get("/verify", validateToken, function (req, res, next) {
-	return res.json({verified: true});
+	return res.json({verified: true, user: req.user});
 });
 
 

@@ -32,30 +32,23 @@ function CommentForm(props) {
             });  
     }
 
-    if (props.loggedIn) {
-        return (
-            <form onChange={handleChange} onSubmit={handleSubmit}>
-                <Stack sx={{ width: 300 }} alignItems="center">
-                    <TextField className="comment-field" label="Comment" id="content" multiline minRows={2}></TextField>
-                    <Grid container justifyContent="center">
-                        <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
-                    </Grid>
-                </Stack>         
-            </form>
-        )
-    } else {
-        return (
-            <form onChange={handleChange} onSubmit={handleSubmit}>
-                <Stack sx={{ width: 300 }} alignItems="center">
-                    <TextField disabled className="comment-field" label="Log in to comment" id="content" multiline minRows={2}></TextField>
-                    <Grid container justifyContent="center">
-                        <Button disabled variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
-                    </Grid>
-                </Stack>         
-            </form>
-        )
-    }
-    
+    return (
+        <form onChange={handleChange} onSubmit={handleSubmit}>
+            <Stack sx={{ width: 300 }} alignItems="center">
+                <TextField
+                    disabled={props.user == null}
+                    className="comment-field" 
+                    label={(props.user != null) ? "Comment" : "Log in to comment"} 
+                    id="content" 
+                    multiline 
+                    minRows={2}
+                ></TextField>
+                <Grid container justifyContent="center">
+                    <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
+                </Grid>
+            </Stack>         
+        </form>
+    );  
 }
 
 export default CommentForm

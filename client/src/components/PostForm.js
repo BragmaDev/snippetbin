@@ -34,45 +34,24 @@ function PostForm(props) {
             });  
     }
 
-    if (props.loggedIn) {
-        return (
-            <form onChange={handleChange} onSubmit={handleSubmit} className="post-form">
-                <div>
-                    <TextField
-                        id="snippet"
-                        label="Code snippet"
-                        multiline
-                        minRows={4}
-                        defaultValue=""
-                        fullWidth
-                    />
-                </div>
-                <Grid container justifyContent="end">
-                    <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
-                </Grid>
-            </form>
-        )
-    } else {
-        return (
-            <form onChange={handleChange} onSubmit={handleSubmit} className="post-form">
-                <div>
-                    <TextField
-                        disabled
-                        id="snippet"
-                        label="Log in to post snippets"
-                        multiline
-                        minRows={4}
-                        defaultValue=""
-                        fullWidth
-                    />
-                </div>
-                <Grid container justifyContent="end">
-                    <Button disabled variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
-                </Grid>
-            </form>
-        )
-    }
-    
+    return (
+        <form onChange={handleChange} onSubmit={handleSubmit} className="post-form">
+            <div>
+                <TextField
+                    disabled={props.user == null}
+                    id="snippet"
+                    label={(props.user != null) ? "Code snippet" : "Log in to post snippets"}
+                    multiline
+                    minRows={4}
+                    defaultValue=""
+                    fullWidth
+                />
+            </div>
+            <Grid container justifyContent="end">
+                <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
+            </Grid>
+        </form>
+    )
 }
 
 export default PostForm

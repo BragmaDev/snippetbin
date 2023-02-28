@@ -30,10 +30,6 @@ function LoginForm(props) {
             });    
     }
 
-    if (props.loggedIn) {
-        return <Navigate to="/" replace />;
-    }
-
     return (
         <form onChange={handleChange} onSubmit={handleSubmit}>
             <Stack alignItems="center" spacing={{ xs: 1, sm: 2, md: 4 }} sx={{ pt: 4 }}>

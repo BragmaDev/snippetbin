@@ -17,7 +17,7 @@ function Header(props) {
         window.location.reload();
     }
 
-    if (props.loggedIn) {
+    if (props.user != null) {
         userButtons = <Button onClick={handleLogout} variant="text" color="secondary">LOGOUT</Button>
     } 
 

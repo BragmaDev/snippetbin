@@ -51,7 +51,7 @@ export const PostContainer = (props) => {
                     </code>
                 </pre>
             </Paper>           
-            <CommentForm postId={postId} loggedIn={props.loggedIn}/>
+            <CommentForm postId={postId} user={props.user}/>
             <ul className="comment-list">
                 {comments}
             </ul>
