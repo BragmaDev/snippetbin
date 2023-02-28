@@ -44,7 +44,7 @@ function CommentForm(props) {
                     minRows={2}
                 ></TextField>
                 <Grid container justifyContent="center">
-                    <Button variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
+                    <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
                 </Grid>
             </Stack>         
         </form>

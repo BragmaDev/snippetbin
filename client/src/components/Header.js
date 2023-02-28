@@ -40,6 +40,13 @@ function Header(props) {
                     &lt;SNIPPETBIN/&gt;
                 </Typography>
                 <Grid container justifyContent="end">
+                    <Typography 
+                        sx={{ my: 1, pr: 3 }}
+                        variant="button" 
+                        color="lightgrey"
+                    >
+                        {(props.user != null) ? "Hello " + props.user.username + "!" : ""}
+                    </Typography>
                     {userButtons}
                 </Grid>
             </Toolbar>

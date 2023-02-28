@@ -78,7 +78,7 @@ const Post = (props) => {
                 </code>
             </pre>
             <Grid container justifyContent="end">
-                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.user != null) ? props.post.posterName : "Username"}</Typography>
+                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.post != null) ? props.post.posterName : "Username"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
                 </IconButton>
