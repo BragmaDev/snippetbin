@@ -54,6 +54,7 @@ const Post = (props) => {
 
     return (
         <Paper className="post-list-paper" sx={{ px: 4, pt: 4, pb: 2, my: 2 }}>
+            <Typography sx={{ pb: 2 }} variant="h6" color="primary">{props.post.title}</Typography>
             <pre>
                 <code>
                     {props.post.snippet}

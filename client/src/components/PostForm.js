@@ -4,10 +4,10 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 function PostForm(props) {
-    const [snippet, setSnippet] = useState("");
+    const [post, setPost] = useState({});
 
     const handleChange = (e) => {
-        if (e.target.id === "snippet") setSnippet(e.target.value);
+        setPost({...post, [e.target.id]: e.target.value});
     }
 
     const handleSubmit = (e) => {
@@ -20,7 +20,7 @@ function PostForm(props) {
               "Content-type": "application/json",
               "Authorization": "Bearer " + authToken
             },
-            body: JSON.stringify({ snippet }),
+            body: JSON.stringify({ ...post }),
             mode: "cors"
         })
             .then(response => response.json())
@@ -36,17 +36,21 @@ function PostForm(props) {
 
     return (
         <form onChange={handleChange} onSubmit={handleSubmit} className="post-form">
-            <div>
-                <TextField
-                    disabled={props.user == null}
-                    id="snippet"
-                    label={(props.user != null) ? "Code snippet" : "Log in to post snippets"}
-                    multiline
-                    minRows={4}
-                    defaultValue=""
-                    fullWidth
-                />
-            </div>
+            <TextField 
+                disabled={props.user == null}
+                id="title"
+                label="Title"
+                fullWidth
+                sx={{ mb: 2 }}
+            />
+            <TextField
+                disabled={props.user == null}
+                id="snippet"
+                label={(props.user != null) ? "Code snippet" : "Log in to post snippets"}
+                multiline
+                minRows={4}
+                fullWidth
+            />
             <Grid container justifyContent="end">
                 <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
             </Grid>
