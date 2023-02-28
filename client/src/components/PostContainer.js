@@ -4,6 +4,7 @@ import { Paper, Grid, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 import CommentForm from './CommentForm';
 import Post from './Post';
+import Comment from './Comment';
 
 export const PostContainer = (props) => {
     const { postId } = useParams();
@@ -15,9 +16,7 @@ export const PostContainer = (props) => {
         // gets post info
         async function getPost() {
             const post = await fetch("/api/posts/" + postId)
-                .then(res => res.json())
-                .then(getComments());
-
+                .then(res => res.json());
             if (mounted) setPost(post);
         }
         // gets post comments
@@ -26,24 +25,17 @@ export const PostContainer = (props) => {
                 .then(res => res.json())
                 .then(json => json.map(comment => {
                     return <li key={comment._id}>   
-                        <Paper 
-                            className="comment-paper" 
-                            sx={{ px: 2, py: 2, my: 2 }}
-                            variant="outlined"
-                        >
-                            <div className="comment-text">
-                                {comment.content}
-                            </div>
-                        </Paper>
+                        <Comment comment={comment} user={props.user} />
                     </li>
                 }));
             
             if (mounted) setComments(comments);
         }
         getPost();
+        getComments();
 
         return () => { mounted = false; }
-    }, [postId]);
+    }, [postId, props.user]);
 
     return (
         <Stack alignItems="center">

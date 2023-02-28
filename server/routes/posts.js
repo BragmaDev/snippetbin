@@ -7,7 +7,7 @@ const validateToken = require("../auth/validateToken");
 
 // get list of posts
 router.get('/', async function (req, res, next) {
-    const posts = await Post.find({})
+    const posts = await Post.find({}).sort({ _id: -1 })
         .catch(err => { throw err });
     return res.json(posts);
 });
@@ -46,7 +46,9 @@ router.post('/:id/comments', validateToken, function (req, res, next) {
     const comment = {
         postId: req.params.id,
         userId: req.user.id,
-        content: req.body.content
+        content: req.body.content,
+        votes: [],
+        rating: 0
     };
     // create db entry
     Comment.create(comment)
@@ -82,6 +84,41 @@ router.put('/:id', validateToken, function (req, res, next) {
                     post.rating = post.votes.map(vote => vote.vote)
                         .reduce((a, b) => a+b);
                     post.save();
+                    return res.json({success: true, replacedOldVote: true});
+                }       
+            }
+        })
+        .catch(err => { throw err });
+});
+
+// vote on a comment
+router.put('/comments/:id', validateToken, function (req, res, next) {
+    Comment.findById(req.params.id)
+        .then(comment => {
+            if (!comment) {
+                return res.status(404).json({success: false});
+            }
+            const index = comment.votes.findIndex(vote => vote.userId === req.user.id);           
+            if (index === -1) {
+                // user has not voted on this comment yet, add requested vote
+                comment.votes.push({userId: req.user.id, vote: req.body.vote});
+                // calculate comment rating
+                comment.rating = comment.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
+                comment.save();
+                return res.json({success: true, replacedOldVote: false});
+            } else {
+                // user has already voted on this comment
+                if (comment.votes[index].vote === req.body.vote) {
+                    // user is trying to cast the same vote
+                    return res.json({success: false});
+                } else {
+                    // user is trying to replace their old vote
+                    comment.votes[index] = {...comment.votes[index], vote: req.body.vote};
+                    // calculate comment rating
+                    comment.rating = comment.votes.map(vote => vote.vote)
+                        .reduce((a, b) => a+b);
+                    comment.save();
                     return res.json({success: true, replacedOldVote: true});
                 }       
             }
