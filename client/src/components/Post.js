@@ -78,6 +78,22 @@ const Post = (props) => {
         }
     }
 
+    // returns a formatted timestamp of when the post was last edited if it has been
+    const lastEdited = (ts) => {
+        if (props.post.lastEdited == null) return null;
+        const date = new Date(ts);
+        const dtFormat = new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'});
+        return (
+        <Typography 
+            sx={{ pt: 0.5, pr: 3 }} 
+            variant="overline" 
+            color="lightgrey"
+        >
+            {`Edited ${dtFormat.format(date)}`}
+        </Typography>
+        );
+    }
+
     return (
         <Paper sx={{ px: 4, pt: 4, pb: 2, my: 2, width: 1 }}>
             <Typography sx={{ pb: 4 }} variant="h6">{props.post.title}</Typography>
@@ -87,6 +103,7 @@ const Post = (props) => {
                 </code>
             </pre>
             <Grid sx={{ pt: 2 }} container justifyContent="end">
+                {lastEdited(props.post.lastEdited)}
                 <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.post != null) ? props.post.posterName : "Username"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />

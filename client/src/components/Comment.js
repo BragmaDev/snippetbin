@@ -59,8 +59,25 @@ const Comment = (props) => {
             });
     }
 
+    // returns a formatted timestamp of when the comment was last edited if it has been
+    const lastEdited = (ts) => {
+        if (props.comment.lastEdited == null) return null;
+        const date = new Date(ts);
+        const dtFormat = new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'});
+        return (
+        <Typography 
+            sx={{ pt: 0.5, pr: 3 }} 
+            variant="overline" 
+            color="lightgrey"
+        >
+            {`Edited ${dtFormat.format(date)}`}
+        </Typography>
+        );
+    }
+
+    // returns a button to edit this comment if the current user is its author
     const editButton = () => {
-        if (props.comment == null || props.user == null) return null;
+        if (props.user == null) return null;
         if (props.comment.userId == props.user.id) {
             return (
             <Button
@@ -87,7 +104,8 @@ const Comment = (props) => {
             </div>
             <Grid container justifyContent="end">
                 {editButton()}
-                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.comment != null) ? props.comment.posterName : "Username"}</Typography>
+                {lastEdited(props.comment.lastEdited)}
+                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.comment != null) ? props.comment.posterName : "-"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
                 </IconButton>

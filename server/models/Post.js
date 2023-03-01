@@ -8,7 +8,8 @@ let postSchema = new Schema ({
     title: {type: String},
     snippet: {type: String},
     votes: {type: Array},
-    rating: {type: Number}
+    rating: {type: Number},
+    lastEdited: {type: Date}
 });
 
 module.exports = mongoose.model("posts", postSchema);

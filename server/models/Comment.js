@@ -8,7 +8,8 @@ let commentSchema = new Schema ({
     posterName: {type: String},
     content: {type: String},
     votes: {type: Array},
-    rating: {type: Number}
+    rating: {type: Number},
+    lastEdited: {type: Date}
 });
 
 module.exports = mongoose.model("comments", commentSchema);

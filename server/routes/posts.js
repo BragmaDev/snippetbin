@@ -11,7 +11,9 @@ router.get('/', async function (req, res, next) {
     const pageSize = 10;
     const page = parseInt(req.query.page || "0");
     const total = await Post.countDocuments({});
-    const posts = await Post.find({}).sort({ rating: -1 })
+    const posts = await Post.find({})
+        // sort posts by rating and date
+        .sort({ rating: -1, _id: -1 })
         .limit(pageSize)
         .skip(pageSize * page)
         .catch(err => { throw err });
@@ -90,6 +92,7 @@ router.put('/:id', validateToken, function (req, res, next) {
             // apply edit
             post.title = req.body.title;
             post.snippet = req.body.snippet;
+            post.lastEdited = new Date();
             post.save();
             res.json({success: true});
         })
@@ -110,6 +113,7 @@ router.put('/comments/:id', validateToken, function (req, res, next) {
             }
             // apply edit
             comment.content = req.body.content;
+            comment.lastEdited = new Date();
             comment.save();
             res.json({success: true});
         })

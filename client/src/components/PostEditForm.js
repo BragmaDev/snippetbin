@@ -44,7 +44,7 @@ function PostEditForm(props) {
             .then(data => { 
                 if (data.success === true) {
                     console.log("Post edited succesfully.");
-                    navigate("/", { replace: true });
+                    navigate(`/posts/${postId}`, { replace: true });
                 } else {
                     console.log("Post edit submission failed.");
                 }
