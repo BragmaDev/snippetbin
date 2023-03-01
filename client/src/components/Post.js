@@ -75,7 +75,7 @@ const Post = (props) => {
     }
 
     return (
-        <Paper className="post-list-paper" sx={{ px: 4, pt: 4, pb: 2, my: 2 }}>
+        <Paper sx={{ px: 4, pt: 4, pb: 2, my: 2, width: 1 }}>
             <Typography sx={{ pb: 2 }} variant="h6" color="primary">{props.post.title}</Typography>
             <pre>
                 <code className="hljs language-javascript">

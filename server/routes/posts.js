@@ -7,9 +7,18 @@ const validateToken = require("../auth/validateToken");
 
 // get list of posts
 router.get('/', async function (req, res, next) {
+    // pagination source: https://www.youtube.com/watch?v=soWg_UtD_AM
+    const pageSize = 10;
+    const page = parseInt(req.query.page || "0");
+    const total = await Post.countDocuments({});
     const posts = await Post.find({}).sort({ rating: -1 })
+        .limit(pageSize)
+        .skip(pageSize * page)
         .catch(err => { throw err });
-    return res.json(posts);
+    return res.json({
+        posts, 
+        total: Math.ceil(total / pageSize)
+    });
 });
 
 // get single post by id

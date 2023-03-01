@@ -29,6 +29,9 @@ but all users can view them. The application supports multiple screen sizes.
 | ------------- |:-------------:|
 | Basic features      | 25     |
 | Utilization of React      | 5     |
+| Use of highlight library for code snippets      | 2     |
+| Vote (up or down) posts and comments (only one vote per user)      | 3     |
+| Use of a pager when there is more than 10 posts available     | 2     |
 
 ### User manual
 The front page of the application has a list of all snippets that are posted into the database. It also has a post form that can be used if the user is logged in. To register, click on the register button in the header and fill in the username, email, and password fields. The email requires an input that is formatted like an email address, and the password has the following requirements:
