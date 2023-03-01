@@ -5,13 +5,16 @@ var Post = require('../models/Post');
 var Comment = require('../models/Comment');
 const validateToken = require("../auth/validateToken");
 
-// get list of posts
+// get list of posts by page and search term
 router.get('/', async function (req, res, next) {
     // pagination source: https://www.youtube.com/watch?v=soWg_UtD_AM
     const pageSize = 10;
     const page = parseInt(req.query.page || "0");
-    const total = await Post.countDocuments({});
-    const posts = await Post.find({})
+    const regex = new RegExp((req.query.search || ""), "i");
+    // find the search term in the title or the snippet
+    const filter = { $or: [{title: {$regex: regex}}, {snippet: {$regex: regex}}] }
+    const total = await Post.countDocuments(filter);
+    const posts = await Post.find(filter)
         // sort posts by rating and date
         .sort({ rating: -1, _id: -1 })
         .limit(pageSize)
