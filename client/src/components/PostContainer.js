@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Paper, Grid, Button } from '@mui/material';
+import { useParams, Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 import { Stack } from '@mui/system';
 import CommentForm from './CommentForm';
 import Post from './Post';
@@ -38,11 +38,25 @@ export const PostContainer = (props) => {
         return () => { mounted = false; }
     }, [postId, props.user]);
 
+    const checkIfUserIsPoster = () => {
+        if (post == null || props.user == null) return false;
+        return post.userId == props.user.id;
+    }
+
     return (
         <Stack alignItems="center">
             <div className="column-wrapper">
                 <Post post={post} user={props.user} inList={false} />        
             </div>
+            <Button
+                disabled={!checkIfUserIsPoster()}
+                component={Link} 
+                to={`../posts/edit/${postId}`} 
+                variant="text"
+                sx={{ mb: 2 }}
+            >
+                Edit post
+            </Button>
             <CommentForm postId={postId} user={props.user}/>
             <ul className="comment-list">
                 {comments}

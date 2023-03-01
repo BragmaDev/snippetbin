@@ -12,6 +12,8 @@ import LoginForm from './components/LoginForm';
 import PostForm from './components/PostForm';
 import PostListContainer from './components/PostListContainer';
 import PostContainer from './components/PostContainer';
+import PostEditForm from './components/PostEditForm';
+import CommentEditForm from './components/CommentEditForm';
 
 function App() {
 	const darkTheme = createTheme({
@@ -51,12 +53,11 @@ function App() {
 					<div className="App">
 						<Header user={user}/>
 						<Routes>
-							<Route path="/" element={<Stack 
-								alignItems="center"
-							>
-								<PostForm user={user}/>
-								<PostListContainer user={user}/>
-							</Stack>}/>
+							<Route path="/" element={
+								<Stack alignItems="center">
+									<PostForm user={user}/>
+									<PostListContainer user={user}/>
+								</Stack>}/>
 							<Route path="/login" element={
 								<ProtectedRoute user={user} shouldBeLoggedIn={false}>
 									<LoginForm/>
@@ -68,6 +69,16 @@ function App() {
 								</ProtectedRoute>
 							}/>
 							<Route path="/posts/:postId" element={<PostContainer user={user}/>}/>
+							<Route path="/posts/edit/:postId" element={
+								<Stack alignItems="center">
+									<PostEditForm user={user}/>
+								</Stack>
+							}/>
+							<Route path="/comments/edit/:commentId" element={
+								<Stack alignItems="center">
+									<CommentEditForm user={user}/>
+								</Stack>
+							}/>
 							<Route path="*" element={<h1>404</h1>}/>
 						</Routes>		
 					</div>

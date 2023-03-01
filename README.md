@@ -25,6 +25,7 @@ Snippetbin is a web application that is built with the MERN stack. It allows use
 | Feature  | Target points |
 | ------------- |:-------------:|
 | Basic features      | 25     |
+| Users can edit their own comments/posts     | 4     |
 | Utilization of React      | 5     |
 | Use of highlight library for code snippets      | 2     |
 | Vote (up or down) posts and comments (only one vote per user)      | 3     |

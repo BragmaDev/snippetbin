@@ -38,7 +38,7 @@ const Post = (props) => {
     const handleVote = (vote) => {
         const authToken = localStorage.getItem("auth_token");
         // if this post component is shown in a list (i.e. the front page), the fetch path needs to be different
-        const fetchPath = (props.inList) ? 'api/posts/' : '../api/posts/';
+        const fetchPath = (props.inList) ? 'api/posts/votes/' : '../api/posts/votes/';
         // submit vote
         fetch(fetchPath + props.post._id, {
             method: "PUT",

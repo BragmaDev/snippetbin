@@ -36,6 +36,13 @@ router.get('/:id/comments', async function (req, res, next) {
     return res.json(comments);
 });
 
+// get single comment by id
+router.get('/comments/:id', async function (req, res, next) {
+    const comment = await Comment.findById(req.params.id)
+        .catch(err => { throw err });
+    return res.json(comment);
+});
+
 // create new post
 router.post('/', validateToken, function (req, res, next) {
     const post = {
@@ -68,8 +75,49 @@ router.post('/:id/comments', validateToken, function (req, res, next) {
         .catch(err => { throw err });
 });
 
-// vote on a post
+// edit a post
 router.put('/:id', validateToken, function (req, res, next) {
+    Post.findById(req.params.id)
+        .then(post => {
+            if (!post) {
+                // post not found
+                return res.status(404).json({success: false});
+            }        
+            if (post.userId != req.user.id) {
+                // user is trying to edit someone else's post
+                return res.status(401).json({success: false});
+            }
+            // apply edit
+            post.title = req.body.title;
+            post.snippet = req.body.snippet;
+            post.save();
+            res.json({success: true});
+        })
+        .catch(err => { throw err });
+});
+
+// edit a comment
+router.put('/comments/:id', validateToken, function (req, res, next) {
+    Comment.findById(req.params.id)
+        .then(comment => {
+            if (!comment) {
+                // comment not found
+                return res.status(404).json({success: false});
+            }        
+            if (comment.userId != req.user.id) {
+                // user is trying to edit someone else's comment
+                return res.status(401).json({success: false});
+            }
+            // apply edit
+            comment.content = req.body.content;
+            comment.save();
+            res.json({success: true});
+        })
+        .catch(err => { throw err });
+});
+
+// vote on a post
+router.put('/votes/:id', validateToken, function (req, res, next) {
     Post.findById(req.params.id)
         .then(post => {
             if (!post) {
@@ -104,7 +152,7 @@ router.put('/:id', validateToken, function (req, res, next) {
 });
 
 // vote on a comment
-router.put('/comments/:id', validateToken, function (req, res, next) {
+router.put('/comments/votes/:id', validateToken, function (req, res, next) {
     Comment.findById(req.params.id)
         .then(comment => {
             if (!comment) {

@@ -1,4 +1,5 @@
-import { Paper, Grid, IconButton, Typography } from '@mui/material';
+import { Paper, Grid, IconButton, Typography, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 
@@ -32,7 +33,7 @@ const Comment = (props) => {
     const handleVote = (vote) => {
         const authToken = localStorage.getItem("auth_token");
         // submit vote
-        fetch("../api/posts/comments/" + props.comment._id, {
+        fetch("../api/posts/comments/votes/" + props.comment._id, {
             method: "PUT",
             headers: {
               "Content-type": "application/json",
@@ -58,6 +59,23 @@ const Comment = (props) => {
             });
     }
 
+    const editButton = () => {
+        if (props.comment == null || props.user == null) return null;
+        if (props.comment.userId == props.user.id) {
+            return (
+            <Button
+                component={Link} 
+                to={`../comments/edit/${props.comment._id}`} 
+                variant="text"
+                sx={{ mr: 2 }}
+            >
+                Edit
+            </Button>
+            );
+        }
+        return null;
+    }
+
     return (
         <Paper 
             className="comment-paper" 
@@ -68,7 +86,8 @@ const Comment = (props) => {
                 {props.comment.content}
             </div>
             <Grid container justifyContent="end">
-                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.user != null) ? props.comment.posterName : "Username"}</Typography>
+                {editButton()}
+                <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.comment != null) ? props.comment.posterName : "Username"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
                 </IconButton>
