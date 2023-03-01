@@ -10,6 +10,7 @@ export const PostContainer = (props) => {
     const { postId } = useParams();
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState(""); // used to update list when submitting new comment
 
     useEffect(() => {
         let mounted = true;
@@ -36,7 +37,7 @@ export const PostContainer = (props) => {
         getComments();
 
         return () => { mounted = false; }
-    }, [postId, props.user]);
+    }, [postId, props.user, newComment]);
 
     const checkIfUserIsPoster = () => {
         if (post == null || props.user == null) return false;
@@ -57,7 +58,7 @@ export const PostContainer = (props) => {
             >
                 Edit post
             </Button>
-            <CommentForm postId={postId} user={props.user}/>
+            <CommentForm postId={postId} user={props.user} setNewComment={setNewComment}/>
             <ul className="comment-list">
                 {comments}
             </ul>

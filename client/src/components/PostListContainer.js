@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Pagination, Stack, TextField, Typography } from '@mui/material';
 import PostList from "./PostList";
+import PostForm from './PostForm';
 
 export const PostListContainer = (props) => {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [newPost, setNewPost] = useState(""); // used to update list when submitting new post
 
     useEffect(() => {
         let mounted = true;
@@ -22,7 +24,7 @@ export const PostListContainer = (props) => {
         getPosts();
 
         return () => { mounted = false; }
-    }, [page, searchTerm]);
+    }, [page, searchTerm, newPost]);
     
     // change page when pager is used
     const handlePageChange = (e, p) => {
@@ -34,7 +36,8 @@ export const PostListContainer = (props) => {
         setSearchTerm(e.target.value);
     }
 
-    return (
+    return (<>
+        <PostForm user={props.user} setNewPost={setNewPost} />
         <div className="column-wrapper">
             <Typography variant="h5">All snippets</Typography>
             <TextField 
@@ -54,6 +57,7 @@ export const PostListContainer = (props) => {
                 />
             </Stack>
         </div>
+        </>
     )
 }
 

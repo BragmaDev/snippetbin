@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function LoginForm(props) {
     const [credentials, setCredentials] = useState({})
@@ -26,7 +27,7 @@ function LoginForm(props) {
                     localStorage.setItem("auth_token", data.token);
                     window.location.reload();
                 } else {
-                    console.log("Login unsuccessful.");
+                    toast.error("Login unsuccessful");
                 }
             });    
     }

@@ -9,11 +9,12 @@ import Stack from '@mui/material/Stack';
 import Header from './components/Header';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
-import PostForm from './components/PostForm';
 import PostListContainer from './components/PostListContainer';
 import PostContainer from './components/PostContainer';
 import PostEditForm from './components/PostEditForm';
 import CommentEditForm from './components/CommentEditForm';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 	const darkTheme = createTheme({
@@ -36,7 +37,6 @@ function App() {
 			})
                 .then(response => response.json());
             if (mounted && res.verified) {
-				console.log(JSON.stringify(res));
 				setUser(res.user);
 			}
 			
@@ -46,7 +46,7 @@ function App() {
         return () => { mounted = false; }
     }, []);
 	  
-	return (
+	return (<>
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 				<Router>
@@ -55,7 +55,6 @@ function App() {
 						<Routes>
 							<Route path="/" element={
 								<Stack alignItems="center">
-									<PostForm user={user}/>
 									<PostListContainer user={user}/>
 								</Stack>}/>
 							<Route path="/login" element={
@@ -84,7 +83,8 @@ function App() {
 					</div>
 				</Router>
 		</ThemeProvider>
-		
+		<ToastContainer theme="dark" position="top-center" />
+		</>
 	);
 }
 

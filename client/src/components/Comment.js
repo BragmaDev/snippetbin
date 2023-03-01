@@ -2,6 +2,7 @@ import { Paper, Grid, IconButton, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const Comment = (props) => {
     const [rating, setRating] = useState(props.comment.rating);
@@ -45,16 +46,15 @@ const Comment = (props) => {
             .then(response => response.json())
             .then(data => { 
                 if (data.success === true) {
-                    console.log("Vote submitted succesfully.");
                     // update rating visually     
                     if (data.replacedOldVote === false) {
                         setRating(rating + vote);
                     } else {
                         setRating(rating + (2 * vote));
                     }
-                    setCurrentVote(vote);                   
+                    setCurrentVote(vote);              
                 } else {
-                    console.log("Vote submission failed.");
+                    toast.error("Vote submission failed");
                 }
             });
     }

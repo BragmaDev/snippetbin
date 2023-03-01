@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
 
 function PostForm(props) {
     const [post, setPost] = useState({});
@@ -27,10 +28,10 @@ function PostForm(props) {
             .then(response => response.json())
             .then(data => { 
                 if (data.success === true) {
-                    console.log("Post submitted succesfully.");
-                    window.location.reload();
+                    toast.success("Post submitted successfully");
+                    props.setNewPost(post._id);
                 } else {
-                    console.log("Post submission failed.");
+                    toast.error("Post submission failed");
                 }
             });  
     }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Stack, Grid, TextField, Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function CommentForm(props) {
     const [content, setContent] = useState("");
@@ -16,21 +17,21 @@ function CommentForm(props) {
         fetch('../api/posts/' + props.postId + '/comments', {
             method: "POST",
             headers: {
-              "Content-type": "application/json",
-              "Authorization": "Bearer " + authToken
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + authToken
             },
             body: JSON.stringify({ content }),
             mode: "cors"
         })
             .then(response => response.json())
-            .then(data => { 
+            .then(data => {
                 if (data.success === true) {
-                    console.log("Comment submitted succesfully.");
-                    window.location.reload();
+                    toast.success("Comment submitted succesfully");
+                    props.setNewComment(Date.now());
                 } else {
-                    console.log("Comment submission failed.");
+                    toast.error("Comment submission failed");
                 }
-            });  
+            });
     }
 
     return (
@@ -38,18 +39,18 @@ function CommentForm(props) {
             <Stack sx={{ width: 300 }} alignItems="center">
                 <TextField
                     disabled={props.user == null}
-                    className="comment-field" 
-                    label={(props.user != null) ? "Comment" : "Log in to comment"} 
-                    id="content" 
-                    multiline 
+                    className="comment-field"
+                    label={(props.user != null) ? "Comment" : "Log in to comment"}
+                    id="content"
+                    multiline
                     minRows={2}
                 ></TextField>
                 <Grid container justifyContent="center">
-                    <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>              
+                    <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>
                 </Grid>
-            </Stack>         
+            </Stack>
         </form>
-    );  
+    );
 }
 
 export default CommentForm

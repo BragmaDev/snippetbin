@@ -10,24 +10,24 @@ const User = require("../models/User");
 const validateToken = require("../auth/validateToken");
 
 // regex for validating password
-const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()\-_+={}\[\]|\\;:"<>,.\/?])/;
+const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
 
 // register new user
 router.post('/register',
-	body("username"),
+	body("username").trim().isLength({ min: 3 }).escape(),
 	body("email").trim().isEmail().escape(),
-	body("password").isLength({ min: 8 }).matches(regex),
+	body("password").isLength({ min: 5 }).matches(regex),
 	(req, res, next) => {
 		// validate request
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() });
+			return res.status(400).json({ message: "Invalid username, email, or password" });
 		}
 		// check that the email or username is not in use by another user
 		User.findOne().or([{ email: req.body.email }, { username: req.body.username }])
 			.then(user => {
 				if (user) {
-					return res.status(403).json({ error: "Email or username already in use" });
+					return res.status(403).json({ message: "Email or username already in use" });
 				} else {
 					bcrypt.genSalt(10, (err, salt) => {
 						if (err) throw err;
@@ -40,7 +40,7 @@ router.post('/register',
 							}
 							// create user entry in the db
 							User.create(newUser)
-								.then(ok => { return res.send("User registered successfully.") })
+								.then(ok => { return res.json({ success: true }) })
 								.catch(err => { throw err });
 						});
 					});

@@ -3,12 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
 
 function CommentEditForm(props) {
     const navigate = useNavigate();
     const { commentId } = useParams();
     const [comment, setComment] = useState({});
- 
+
     useEffect(() => {
         let mounted = true;
         // gets comment info
@@ -20,11 +21,11 @@ function CommentEditForm(props) {
         getComment();
 
         return () => { mounted = false; }
-    }, [commentId, props.user]);  
+    }, [commentId, props.user]);
 
     const handleChange = (e) => {
         // update the edited comment's info in variable
-        setComment({...comment, [e.target.id]: e.target.value});
+        setComment({ ...comment, [e.target.id]: e.target.value });
     }
 
     const handleSubmit = (e) => {
@@ -34,21 +35,21 @@ function CommentEditForm(props) {
         fetch(`../../api/posts/comments/${commentId}`, {
             method: "PUT",
             headers: {
-              "Content-type": "application/json",
-              "Authorization": "Bearer " + authToken
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + authToken
             },
             body: JSON.stringify({ ...comment }),
             mode: "cors"
         })
             .then(response => response.json())
-            .then(data => { 
+            .then(data => {
                 if (data.success === true) {
-                    console.log("Comment edited succesfully.");
+                    toast.success("Comment edited successfully");
                     navigate(`/posts/${comment.postId}`, { replace: true });
                 } else {
-                    console.log("Comment edit submission failed.");
+                    toast.error("Edit submission failed");
                 }
-            });  
+            });
     }
 
     return (
@@ -63,7 +64,7 @@ function CommentEditForm(props) {
                 value={comment.content}
             />
             <Grid container justifyContent="end">
-                <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Edit comment</Button>              
+                <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Edit comment</Button>
             </Grid>
         </form>
     )

@@ -2,6 +2,7 @@ import { Paper, Grid, Button, IconButton, Typography } from '@mui/material';
 import { KeyboardArrowUp, KeyboardArrowDown, Comment } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 // code blocks use javascript as the language for syntax highlighting
@@ -52,7 +53,6 @@ const Post = (props) => {
             .then(response => response.json())
             .then(data => { 
                 if (data.success === true) {
-                    console.log("Vote submitted succesfully.");
                     // update rating visually     
                     if (data.replacedOldVote === false) {
                         setRating(rating + vote);
@@ -62,7 +62,7 @@ const Post = (props) => {
                     }
                     setCurrentVote(vote);                   
                 } else {
-                    console.log("Vote submission failed.");
+                    toast.error("Vote submission failed");
                 }
             });
     }

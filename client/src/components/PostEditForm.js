@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
 
 function PostEditForm(props) {
     const navigate = useNavigate();
@@ -43,10 +44,10 @@ function PostEditForm(props) {
             .then(response => response.json())
             .then(data => { 
                 if (data.success === true) {
-                    console.log("Post edited succesfully.");
+                    toast.success("Post edited succesfully");
                     navigate(`/posts/${postId}`, { replace: true });
                 } else {
-                    console.log("Post edit submission failed.");
+                    toast.error("Edit submission failed");
                 }
             });  
     }
