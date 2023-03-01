@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 // redirects the user if their login state is not shouldBeLoggedIn
 const ProtectedRoute = ({ user, shouldBeLoggedIn = true, children }) => {
     // if the user object is not null, the user is logged in
-    if ((user != null) != shouldBeLoggedIn) {
+    if ((user != null) !== shouldBeLoggedIn) {
         return <Navigate to="/" replace />;
     }
 

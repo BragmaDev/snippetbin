@@ -8,11 +8,11 @@ const Comment = (props) => {
     const [currentVote, setCurrentVote] = useState(0);
 
     const getVoteFromProps = () => {
-        if (props.comment.votes == undefined || props.comment.votes == null) return 0;
+        if (props.comment.votes === undefined || props.comment.votes === null) return 0;
         // get user's current vote on the comment
         if (props.user != null) {
             const found = props.comment.votes.findIndex(vote => vote.userId === props.user.id);
-            if (found != -1) {
+            if (found !== -1) {
                 return props.comment.votes[found].vote;
             }
         }
@@ -78,7 +78,7 @@ const Comment = (props) => {
     // returns a button to edit this comment if the current user is its author
     const editButton = () => {
         if (props.user == null) return null;
-        if (props.comment.userId == props.user.id) {
+        if (props.comment.userId === props.user.id) {
             return (
             <Button
                 component={Link} 
@@ -106,12 +106,12 @@ const Comment = (props) => {
                 {editButton()}
                 {lastEdited(props.comment.lastEdited)}
                 <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.comment != null) ? props.comment.posterName : "-"}</Typography>
-                <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
-                    <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
+                <IconButton disabled={props.user == null || currentVote === 1} onClick={() => handleVote(1)} aria-label="upvote">
+                    <KeyboardArrowUp color={(currentVote === 1) ? "primary" : "default"} />
                 </IconButton>
                 <Typography sx={{ pt: 1, px: 1 }} variant="button" color="secondary">{rating}</Typography>
-                <IconButton disabled={props.user == null || currentVote == -1} onClick={() => handleVote(-1)} aria-label="downvote">
-                    <KeyboardArrowDown color={(currentVote == -1) ? "primary" : "default"} />
+                <IconButton disabled={props.user == null || currentVote === -1} onClick={() => handleVote(-1)} aria-label="downvote">
+                    <KeyboardArrowDown color={(currentVote === -1) ? "primary" : "default"} />
                 </IconButton>
             </Grid>
         </Paper>

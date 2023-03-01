@@ -12,11 +12,11 @@ const Post = (props) => {
     const [currentVote, setCurrentVote] = useState(0);
 
     const getVoteFromProps = () => {
-        if (props.post.votes == undefined || props.post.votes == null) return 0;
+        if (props.post.votes === undefined || props.post.votes == null) return 0;
         // get user's current vote on the post
         if (props.user != null) {
             const found = props.post.votes.findIndex(vote => vote.userId === props.user.id);
-            if (found != -1) {
+            if (found !== -1) {
                 return props.post.votes[found].vote;
             }
         }
@@ -105,12 +105,12 @@ const Post = (props) => {
             <Grid sx={{ pt: 2 }} container justifyContent="end">
                 {lastEdited(props.post.lastEdited)}
                 <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.post != null) ? props.post.posterName : "Username"}</Typography>
-                <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
-                    <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />
+                <IconButton disabled={props.user == null || currentVote === 1} onClick={() => handleVote(1)} aria-label="upvote">
+                    <KeyboardArrowUp color={(currentVote === 1) ? "primary" : "default"} />
                 </IconButton>
                 <Typography sx={{ pt: 1, px: 1 }} variant="button" color="secondary">{rating}</Typography>
-                <IconButton disabled={props.user == null || currentVote == -1} onClick={() => handleVote(-1)} aria-label="downvote">
-                    <KeyboardArrowDown color={(currentVote == -1) ? "primary" : "default"} />
+                <IconButton disabled={props.user == null || currentVote === -1} onClick={() => handleVote(-1)} aria-label="downvote">
+                    <KeyboardArrowDown color={(currentVote === -1) ? "primary" : "default"} />
                 </IconButton>
                 {commentsButton()}
             </Grid>

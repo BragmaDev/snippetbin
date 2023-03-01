@@ -40,7 +40,7 @@ export const PostContainer = (props) => {
 
     const checkIfUserIsPoster = () => {
         if (post == null || props.user == null) return false;
-        return post.userId == props.user.id;
+        return post.userId === props.user.id;
     }
 
     return (
