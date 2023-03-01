@@ -25,6 +25,7 @@ const Post = (props) => {
 
     useEffect(() => {
         let mounted = true;
+        // update the state of the rating and the user's vote on the post
         const vote = getVoteFromProps();
         if (mounted) {
             setCurrentVote(vote);
@@ -36,9 +37,10 @@ const Post = (props) => {
 
     const handleVote = (vote) => {
         const authToken = localStorage.getItem("auth_token");
-        const fetchURL = (props.inList) ? 'api/posts/' : '../api/posts/';
+        // if this post component is shown in a list (i.e. the front page), the fetch path needs to be different
+        const fetchPath = (props.inList) ? 'api/posts/' : '../api/posts/';
         // submit vote
-        fetch(fetchURL + props.post._id, {
+        fetch(fetchPath + props.post._id, {
             method: "PUT",
             headers: {
               "Content-type": "application/json",
@@ -55,6 +57,7 @@ const Post = (props) => {
                     if (data.replacedOldVote === false) {
                         setRating(rating + vote);
                     } else {
+                        // if the user has voted before, the difference in rating needs to be reflected
                         setRating(rating + (2 * vote));
                     }
                     setCurrentVote(vote);                   
@@ -65,10 +68,11 @@ const Post = (props) => {
     }
 
     const commentsButton = () => {
+        // if this post component is shown in a list (i.e. the front page), it renders the comments button
         if (props.inList) {
-            return <IconButton component={Link} to={"/posts/" + props.post._id}>
-                <Comment></Comment>
-            </IconButton>            
+            return <Button endIcon={<Comment/>} variant="outlined" component={Link} to={"/posts/" + props.post._id}>
+                COMMENTS
+            </Button>            
         } else {
             return <></>;
         }
@@ -76,13 +80,13 @@ const Post = (props) => {
 
     return (
         <Paper sx={{ px: 4, pt: 4, pb: 2, my: 2, width: 1 }}>
-            <Typography sx={{ pb: 2 }} variant="h6" color="primary">{props.post.title}</Typography>
+            <Typography sx={{ pb: 4 }} variant="h6">{props.post.title}</Typography>
             <pre>
                 <code className="hljs language-javascript">
                     {props.post.snippet}
                 </code>
             </pre>
-            <Grid container justifyContent="end">
+            <Grid sx={{ pt: 2 }} container justifyContent="end">
                 <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.post != null) ? props.post.posterName : "Username"}</Typography>
                 <IconButton disabled={props.user == null || currentVote == 1} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote == 1) ? "primary" : "default"} />

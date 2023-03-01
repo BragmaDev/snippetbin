@@ -24,6 +24,7 @@ export const PostContainer = (props) => {
             const comments = await fetch("/api/posts/" + postId + "/comments")
                 .then(res => res.json())
                 .then(json => json.map(comment => {
+                    // return comments inside li elements
                     return <li key={comment._id}>   
                         <Comment comment={comment} user={props.user} />
                     </li>

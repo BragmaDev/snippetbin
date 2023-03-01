@@ -5,6 +5,7 @@ function CommentForm(props) {
     const [content, setContent] = useState("");
 
     const handleChange = (e) => {
+        // update comment's content in variable
         if (e.target.id === "content") setContent(e.target.value);
     }
 

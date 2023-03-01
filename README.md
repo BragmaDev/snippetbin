@@ -3,10 +3,7 @@ Advanced Web Applications course project
 
 Author: Matti Bragge
 
-Snippetbin is a web application that is built with the MERN stack. It allows 
-users to post code snippets and comment on them. Users can register and log in, 
-and authorization is JWT-based. Only logged in users can post snippets and comments,
-but all users can view them. The application supports multiple screen sizes. 
+Snippetbin is a web application that is built with the MERN stack. It allows users to post code snippets and comment on them. Users can register and log in, and authorization is JWT-based. Only authenticated users can post and vote on snippets and comments, but all users can view them. The application supports multiple screen sizes. 
 
 ### Technology description
 - Node.js version 18.14.2
@@ -40,3 +37,7 @@ The front page of the application has a list of all snippets that are posted int
 - One or more upper case letters
 - One or more numbers
 - One or more of the following special characters: ~`!@#$%^&*()-_+={}[]|;:"<>,.\/?
+
+After registering, log in with the email and password of the registered account. To post a snippet, type or paste it into the text field on the front page and press the "post snippet" button. The page should reload and show the new post. The bottom of the post contains the username of its author, buttons for upvoting and downvoting (NOTE: after voting, users can only change their votes and not remove them), the post's rating (all votes summed), and the button to open its comments. On the bottom of the front page there is a pagination element that can be used to switch between pages of posts if there are more than 10. 
+
+By clicking on the "comments" button, the user can read, post, and vote comments. 

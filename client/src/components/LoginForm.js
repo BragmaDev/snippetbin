@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { Stack, TextField, Button } from '@mui/material';
 
 function LoginForm(props) {
     const [credentials, setCredentials] = useState({})
 
     const handleChange = (e) => {
+        // update filled in credentials in variable
         setCredentials({...credentials, [e.target.id]: e.target.value});     
     }
 
@@ -22,6 +22,7 @@ function LoginForm(props) {
             .then(response => response.json())
             .then(data => { 
                 if (data.success === true && data.token) {
+                    // add jwt to local storage
                     localStorage.setItem("auth_token", data.token);
                     window.location.reload();
                 } else {

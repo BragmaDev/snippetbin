@@ -5,8 +5,9 @@ import Button from '@mui/material/Button';
 
 function PostForm(props) {
     const [post, setPost] = useState({});
-
+ 
     const handleChange = (e) => {
+        // update the new post's info in variable
         setPost({...post, [e.target.id]: e.target.value});
     }
 

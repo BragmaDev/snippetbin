@@ -23,6 +23,7 @@ export const PostListContainer = (props) => {
         return () => { mounted = false; }
     }, [page]);
     
+    // change page when pager is used
     const handlePageChange = (e, p) => {
         setPage(p - 1);
     }

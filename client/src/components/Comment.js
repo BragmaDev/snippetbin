@@ -20,6 +20,7 @@ const Comment = (props) => {
 
     useEffect(() => {
         let mounted = true;
+        // update the state of the rating and the user's vote on the comment
         const vote = getVoteFromProps();
         if (mounted) {
             setCurrentVote(vote);

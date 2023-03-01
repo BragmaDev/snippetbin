@@ -13,11 +13,13 @@ function Header(props) {
     </>
 
     const handleLogout = (e) => {
+        // remove jwt from local storage
         localStorage.removeItem("auth_token");
         window.location.reload();
     }
 
     if (props.user != null) {
+        // change login and register buttons to logout if user is logged in
         userButtons = <Button onClick={handleLogout} variant="text" color="secondary">LOGOUT</Button>
     } 
 

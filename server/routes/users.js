@@ -64,6 +64,7 @@ router.post("/login",
 				if (!user) {
 					return res.status(403).json({ message: "Incorrect email or password." });
 				} else {
+					// match password
 					bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
 						if (err) throw err;
 						if (isMatch) {
@@ -72,10 +73,11 @@ router.post("/login",
 								username: user.username,
 								email: user.email
 							}
+							// create jsonwebtoken
 							jwt.sign(
 								jwtPayload,
 								process.env.SECRET,
-								{ expiresIn: 7200 },
+								{ expiresIn: 7200 }, // two hours
 								(err, token) => {
 									if (err) throw err;
 									res.json({ success: true, token });
