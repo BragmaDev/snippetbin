@@ -43,7 +43,7 @@ function RegisterForm() {
 				<Typography color="gray">Username must be at least 3 characters long</Typography>
 				<Typography color="gray">Email must be in the form of an address</Typography>
 				<Typography color="gray">Password must be at least 5 characters long and have at 
-				least 1 lower-case letter, 1 upper-case letter, and 1 number</Typography>
+				least 1 lower case letter, 1 upper case letter, and 1 number</Typography>
             </Stack> 
 		</form>
 	)
