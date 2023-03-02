@@ -8,7 +8,7 @@ export const PostListContainer = (props) => {
     const [totalPages, setTotalPages] = useState(0);
     const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [newPost, setNewPost] = useState(""); // used to update list when submitting new post
+    const [newPost, setNewPost] = useState(0); // used to update list when submitting new post
 
     useEffect(() => {
         let mounted = true;

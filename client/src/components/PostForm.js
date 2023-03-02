@@ -29,7 +29,7 @@ function PostForm(props) {
             .then(data => { 
                 if (data.success === true) {
                     toast.success("Post submitted successfully");
-                    props.setNewPost(post._id);
+                    props.setNewPost(Date.now());
                     setPost({title: "", snippet: ""});
                 } else {
                     toast.error("Post submission failed");
