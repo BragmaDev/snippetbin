@@ -28,6 +28,7 @@ function CommentForm(props) {
                 if (data.success === true) {
                     toast.success("Comment submitted succesfully");
                     props.setNewComment(Date.now());
+                    setContent("");
                 } else {
                     toast.error("Comment submission failed");
                 }
@@ -45,6 +46,7 @@ function CommentForm(props) {
                     multiline
                     minRows={2}
                     sx={{ width: 1 }}
+                    value={content}
                 ></TextField>
                 <Grid container justifyContent="center">
                     <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 2 }}>Post comment</Button>

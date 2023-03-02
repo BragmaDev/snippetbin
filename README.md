@@ -14,15 +14,19 @@ Snippetbin is a web application that is built with the MERN stack. It allows use
 
 ### Installation
 1. Install Node.js version 18.14.2
-1. Clone repository into an empty folder (this will be referred to as the root folder)
+1. Install MongoDB
+1. Clone the Snippetbin repository onto your computer
 1. Inside the "server" folder, create a file named ".env"
 1. In the ".env" file, write "SECRET=RANDOMSTRING" without quotes and where "RANDOMSTRING" can be anything
-1. Inside the root folder, run "npm run install"
-1. Inside the root folder, run "npm run build"
-1. Set NODE_ENV to "production" (Run "NODE_ENV=production" on Linux or "SET NODE_ENV=production" on Windows)
-1. Inside the root folder, run "npm run start"
-1. The application will now be running on port 5000
-1. Go to "localhost:5000" on your browser of choice
+1. Open a terminal inside the repository root folder
+1. Run "npm run install"
+1. Run "npm run build"
+1. Set NODE_ENV to "production" 
+    - Linux: Run 'NODE_ENV=production'
+    - Windows cmd: Run 'SET NODE_ENV=production'
+    - Windows PowerShell: Run '$env:NODE_ENV="production"'
+1. Run "npm run start"
+1. Once the application is running, go to "localhost:5000" on your browser of choice
 
 ### Features
 | Feature  | Target points |

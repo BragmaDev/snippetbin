@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
 
 function PostForm(props) {
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState({title: "", snippet: ""});
  
     const handleChange = (e) => {
         // update the new post's info in variable
@@ -30,6 +30,7 @@ function PostForm(props) {
                 if (data.success === true) {
                     toast.success("Post submitted successfully");
                     props.setNewPost(post._id);
+                    setPost({title: "", snippet: ""});
                 } else {
                     toast.error("Post submission failed");
                 }
@@ -44,6 +45,7 @@ function PostForm(props) {
                 label="Title"
                 fullWidth
                 sx={{ mb: 2 }}
+                value={post.title}
             />
             <TextField
                 disabled={props.user == null}
@@ -52,6 +54,7 @@ function PostForm(props) {
                 multiline
                 minRows={4}
                 fullWidth
+                value={post.snippet}
             />
             <Grid container justifyContent="end">
                 <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post snippet</Button>              
