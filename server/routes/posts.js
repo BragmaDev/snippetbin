@@ -15,8 +15,8 @@ router.get('/', async function (req, res, next) {
     const filter = { $or: [{title: {$regex: regex}}, {snippet: {$regex: regex}}] }
     const total = await Post.countDocuments(filter);
     const posts = await Post.find(filter)
-        // sort posts by rating and date
-        .sort({ rating: -1, _id: -1 })
+        // sort posts by date
+        .sort({ _id: -1 })
         .limit(pageSize)
         .skip(pageSize * page)
         .catch(err => { throw err });
@@ -36,7 +36,8 @@ router.get('/:id', async function (req, res, next) {
 // get comments by post id
 router.get('/:id/comments', async function (req, res, next) {
     const comments = await Comment.find({ postId: mongoose.Types.ObjectId(req.params.id) })
-        .sort({ rating: -1 })
+        // sort by date
+        .sort({ _id: -1 })
         .catch(err => { throw err });
     return res.json(comments);
 });
@@ -128,6 +129,7 @@ router.put('/votes/:id', validateToken, function (req, res, next) {
     Post.findById(req.params.id)
         .then(post => {
             if (!post) {
+                // post not found
                 return res.status(404).json({success: false});
             }
             const index = post.votes.findIndex(vote => vote.userId === req.user.id);           
@@ -138,22 +140,26 @@ router.put('/votes/:id', validateToken, function (req, res, next) {
                 post.rating = post.votes.map(vote => vote.vote)
                     .reduce((a, b) => a+b);
                 post.save();
-                return res.json({success: true, replacedOldVote: false});
-            } else {
-                // user has already voted on this post
-                if (post.votes[index].vote === req.body.vote) {
-                    // user is trying to cast the same vote
-                    return res.json({success: false});
-                } else {
-                    // user is trying to replace their old vote
-                    post.votes[index] = {...post.votes[index], vote: req.body.vote};
-                    // calculate post rating
-                    post.rating = post.votes.map(vote => vote.vote)
-                        .reduce((a, b) => a+b);
-                    post.save();
-                    return res.json({success: true, replacedOldVote: true});
-                }       
+                return res.json({success: true, userVote: req.body.vote, rating: post.rating});
             }
+            // user has already voted on this post
+            if (post.votes[index].vote === req.body.vote) {
+                // user is trying to cast the same vote, replace vote with 0
+                post.votes[index] = { ...post.votes[index], vote: 0 };
+                // calculate post rating
+                post.rating = post.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
+                post.save();
+                return res.json({success: true, userVote: 0, rating: post.rating});
+            } else {
+                // user is replacing their old vote with the opposite one
+                post.votes[index] = {...post.votes[index], vote: req.body.vote};
+                // calculate post rating
+                post.rating = post.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
+                post.save();
+                return res.json({success: true, userVote: req.body.vote, rating: post.rating});
+            }       
         })
         .catch(err => { throw err });
 });
@@ -163,6 +169,7 @@ router.put('/comments/votes/:id', validateToken, function (req, res, next) {
     Comment.findById(req.params.id)
         .then(comment => {
             if (!comment) {
+                // comment not found
                 return res.status(404).json({success: false});
             }
             const index = comment.votes.findIndex(vote => vote.userId === req.user.id);           
@@ -173,22 +180,26 @@ router.put('/comments/votes/:id', validateToken, function (req, res, next) {
                 comment.rating = comment.votes.map(vote => vote.vote)
                     .reduce((a, b) => a+b);
                 comment.save();
-                return res.json({success: true, replacedOldVote: false});
-            } else {
-                // user has already voted on this comment
-                if (comment.votes[index].vote === req.body.vote) {
-                    // user is trying to cast the same vote
-                    return res.json({success: false});
-                } else {
-                    // user is trying to replace their old vote
-                    comment.votes[index] = {...comment.votes[index], vote: req.body.vote};
-                    // calculate comment rating
-                    comment.rating = comment.votes.map(vote => vote.vote)
-                        .reduce((a, b) => a+b);
-                    comment.save();
-                    return res.json({success: true, replacedOldVote: true});
-                }       
+                return res.json({success: true, userVote: req.body.vote, rating: comment.rating});
             }
+            // user has already voted on this comment
+            if (comment.votes[index].vote === req.body.vote) {
+                // user is trying to cast the same vote, replace vote with 0
+                comment.votes[index] = { ...comment.votes[index], vote: 0 };
+                // calculate comment rating
+                comment.rating = comment.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
+                comment.save();
+                return res.json({success: true, userVote: 0, rating: comment.rating});
+            } else {
+                // user is replacing their old vote with the opposite one
+                comment.votes[index] = {...comment.votes[index], vote: req.body.vote};
+                // calculate comment rating
+                comment.rating = comment.votes.map(vote => vote.vote)
+                    .reduce((a, b) => a+b);
+                comment.save();
+                return res.json({success: true, userVote: req.body.vote, rating: comment.rating});
+            }   
         })
         .catch(err => { throw err });
 });

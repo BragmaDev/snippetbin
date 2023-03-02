@@ -47,12 +47,8 @@ const Comment = (props) => {
             .then(data => { 
                 if (data.success === true) {
                     // update rating visually     
-                    if (data.replacedOldVote === false) {
-                        setRating(rating + vote);
-                    } else {
-                        setRating(rating + (2 * vote));
-                    }
-                    setCurrentVote(vote);              
+                    setRating(data.rating);
+                    setCurrentVote(data.userVote);               
                 } else {
                     toast.error("Vote submission failed");
                 }
@@ -106,11 +102,11 @@ const Comment = (props) => {
                 {editButton()}
                 {lastEdited(props.comment.lastEdited)}
                 <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.comment != null) ? props.comment.posterName : "-"}</Typography>
-                <IconButton disabled={props.user == null || currentVote === 1} onClick={() => handleVote(1)} aria-label="upvote">
+                <IconButton disabled={props.user == null} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote === 1) ? "primary" : "default"} />
                 </IconButton>
                 <Typography sx={{ pt: 1, px: 1 }} variant="button" color="secondary">{rating}</Typography>
-                <IconButton disabled={props.user == null || currentVote === -1} onClick={() => handleVote(-1)} aria-label="downvote">
+                <IconButton disabled={props.user == null} onClick={() => handleVote(-1)} aria-label="downvote">
                     <KeyboardArrowDown color={(currentVote === -1) ? "primary" : "default"} />
                 </IconButton>
             </Grid>

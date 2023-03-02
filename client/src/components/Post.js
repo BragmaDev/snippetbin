@@ -53,14 +53,9 @@ const Post = (props) => {
             .then(response => response.json())
             .then(data => { 
                 if (data.success === true) {
-                    // update rating visually     
-                    if (data.replacedOldVote === false) {
-                        setRating(rating + vote);
-                    } else {
-                        // if the user has voted before, the difference in rating needs to be reflected
-                        setRating(rating + (2 * vote));
-                    }
-                    setCurrentVote(vote);                   
+                    // update rating visually
+                    setRating(data.rating);
+                    setCurrentVote(data.userVote);                 
                 } else {
                     toast.error("Vote submission failed");
                 }
@@ -105,11 +100,11 @@ const Post = (props) => {
             <Grid sx={{ pt: 2 }} container justifyContent="end">
                 {lastEdited(props.post.lastEdited)}
                 <Typography sx={{ pt: 1, pr: 3 }} variant="button" color="lightgrey">{(props.post != null) ? props.post.posterName : "Username"}</Typography>
-                <IconButton disabled={props.user == null || currentVote === 1} onClick={() => handleVote(1)} aria-label="upvote">
+                <IconButton disabled={props.user == null} onClick={() => handleVote(1)} aria-label="upvote">
                     <KeyboardArrowUp color={(currentVote === 1) ? "primary" : "default"} />
                 </IconButton>
                 <Typography sx={{ pt: 1, px: 1 }} variant="button" color="secondary">{rating}</Typography>
-                <IconButton disabled={props.user == null || currentVote === -1} onClick={() => handleVote(-1)} aria-label="downvote">
+                <IconButton disabled={props.user == null} onClick={() => handleVote(-1)} aria-label="downvote">
                     <KeyboardArrowDown color={(currentVote === -1) ? "primary" : "default"} />
                 </IconButton>
                 {commentsButton()}

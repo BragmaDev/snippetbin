@@ -77,7 +77,7 @@ router.post("/login",
 							jwt.sign(
 								jwtPayload,
 								process.env.SECRET,
-								{ expiresIn: 7200 }, // two hours
+								{ },
 								(err, token) => {
 									if (err) throw err;
 									res.json({ success: true, token });

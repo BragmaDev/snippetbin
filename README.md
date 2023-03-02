@@ -10,7 +10,7 @@ Snippetbin is a web application that is built with the MERN stack. It allows use
 - npm version 9.5.0
 - Express
 - React
-- MongoDB
+- MongoDB (uses database named "snippetbin")
 
 ### Installation
 1. Install Node.js version 18.14.2
@@ -35,7 +35,7 @@ Snippetbin is a web application that is built with the MERN stack. It allows use
 | Vote (up or down) posts and comments (only one vote per user)      | 3     |
 | Use of a pager when there is more than 10 posts available     | 2     |
 | Last edited timestamp is stored and shown with posts/comments     | 2     |
-| Show toast alerts for errors and certain successful actions (I think this should be accepted because it improves the user experience meaningfully)     | 2     |
+| Own feature: Show toast alerts for errors and certain successful actions (I think this should be accepted because it improves the user experience meaningfully)     | 2     |
 |      | Total: 47     |
 
 ### User manual
@@ -58,6 +58,7 @@ Snippetbin is a web application that is built with the MERN stack. It allows use
 #### Vote on a post/comment
 1. Log in
 1. Click the up/down arrow on the bottom of a post/comment
+1. To remove a vote, click on the same arrow again
 
 #### View comments
 1. Click the "comments" button on the bottom of a post
