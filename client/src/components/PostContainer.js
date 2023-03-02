@@ -45,7 +45,7 @@ export const PostContainer = (props) => {
     }
 
     return (
-        <Stack alignItems="center">
+        <Stack alignItems="center" sx={{width: 1}}>
             <div className="column-wrapper">
                 <Post post={post} user={props.user} inList={false} />        
             </div>

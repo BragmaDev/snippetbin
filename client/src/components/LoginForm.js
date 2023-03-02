@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Stack, TextField, Button } from '@mui/material';
 import { toast } from 'react-toastify';
 
 function LoginForm(props) {
+    const navigate = useNavigate();
     const [credentials, setCredentials] = useState({})
 
     const handleChange = (e) => {
@@ -25,7 +27,9 @@ function LoginForm(props) {
                 if (data.success === true && data.token) {
                     // add jwt to local storage
                     localStorage.setItem("auth_token", data.token);
-                    window.location.reload();
+                    toast.success("Logged in successfully");
+                    props.setLogin(true);
+                    navigate("/", { replace: true })
                 } else {
                     toast.error("Login unsuccessful");
                 }

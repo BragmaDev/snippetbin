@@ -5,8 +5,10 @@ import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 function Header(props) {
+    const navigate = useNavigate();
     let userButtons = <>
         <Button component={Link} to="/login" variant="text" color="secondary">LOGIN</Button>
         <Button component={Link} to="/register" variant="text" color="secondary">REGISTER</Button>
@@ -15,6 +17,8 @@ function Header(props) {
     const handleLogout = (e) => {
         // remove jwt from local storage
         localStorage.removeItem("auth_token");
+        props.setLogin(false);
+        navigate("/", { replace: true });
         window.location.reload();
     }
 

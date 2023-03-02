@@ -3,7 +3,7 @@ Advanced Web Applications course project
 
 Author: Matti Bragge
 
-Snippetbin is a web application that is built with the MERN stack. It allows users to post code snippets and comment on them. Users can register and log in, and authorization is JWT-based. Only authenticated users can post, edit, and vote on snippets and comments, but all users can view them. The application supports multiple screen sizes. All features are specified below.
+Snippetbin is a web application that is built with the MERN stack. It allows users to post code snippets and comment on them. Users can register and log in, and authorization is JWT-based. Only authenticated users can post, edit, and vote on snippets and comments, but all users can view them. The application supports multiple screen sizes. All features are specified below in the "Features" section.
 
 ### Technology description
 - Node.js version 18.14.2
@@ -13,10 +13,11 @@ Snippetbin is a web application that is built with the MERN stack. It allows use
 - MongoDB
 
 ### Installation
+1. Install Node.js version 18.14.2
 1. Clone repository into an empty folder (this will be referred to as the root folder)
 1. Inside the root folder, run "npm run install"
 1. Inside the root folder, run "npm run build"
-1. Set NODE_ENV to "production"
+1. Set NODE_ENV to "production" (Run "NODE_ENV=production" on Linux or "SET NODE_ENV=production" on Windows)
 1. Inside the root folder, run "npm run start"
 1. The application will now be running on port 5000
 1. Go to "localhost:5000" on your browser of choice

@@ -18,7 +18,8 @@ ul {
 }
 
 .comment-field {
-  width: 100%;
+  margin-top: 5rem;
+  width: 50%;
 }
 
 .comment-list {

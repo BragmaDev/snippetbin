@@ -26,6 +26,7 @@ function App() {
 	});
 
 	const [user, setUser] = useState(null);
+	const [login, setLogin] = useState(false);
 	useEffect(() => {
         let mounted = true;
         // verifies that user is logged in
@@ -38,20 +39,19 @@ function App() {
                 .then(response => response.json());
             if (mounted && res.verified) {
 				setUser(res.user);
-			}
-			
+			}		
         }
         verifyLogin();
 
         return () => { mounted = false; }
-    }, []);
+    }, [login]);
 	  
 	return (<>
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 				<Router>
 					<div className="App">
-						<Header user={user}/>
+						<Header user={user} setLogin={setLogin}/>
 						<Routes>
 							<Route path="/" element={
 								<Stack alignItems="center">
@@ -59,7 +59,7 @@ function App() {
 								</Stack>}/>
 							<Route path="/login" element={
 								<ProtectedRoute user={user} shouldBeLoggedIn={false}>
-									<LoginForm/>
+									<LoginForm setLogin={setLogin}/>
 								</ProtectedRoute>
 							}/>
 							<Route path="/register" element={

@@ -35,8 +35,8 @@ function CommentForm(props) {
     }
 
     return (
-        <form onChange={handleChange} onSubmit={handleSubmit}>
-            <Stack sx={{ width: 300 }} alignItems="center">
+        <form className="comment-field" onChange={handleChange} onSubmit={handleSubmit}>
+            <Stack alignItems="center">
                 <TextField
                     disabled={props.user == null}
                     className="comment-field"
@@ -44,9 +44,10 @@ function CommentForm(props) {
                     id="content"
                     multiline
                     minRows={2}
+                    sx={{ width: 1 }}
                 ></TextField>
                 <Grid container justifyContent="center">
-                    <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 4 }}>Post comment</Button>
+                    <Button disabled={props.user == null} variant="contained" type="submit" sx={{ mt: 2, mb: 2 }}>Post comment</Button>
                 </Grid>
             </Stack>
         </form>
